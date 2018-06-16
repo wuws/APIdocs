@@ -353,6 +353,9 @@
     },
     "/contacts": {
       "get": {
+        "tags": [
+          "contact"
+        ],
         "summary": "Get all contacts",
         "description": "Returns list of all contacts.",
         "produces": [
@@ -378,6 +381,9 @@
     },
     "/contacts/{id}": {
       "get": {
+        "tags": [
+          "contact"
+        ],
         "summary": "Get Contact",
         "description": "Returns information about a specific contact in the account.",
         "produces": [
@@ -484,7 +490,7 @@
     },
     "Users": {
       "type": "array",
-      "item": {
+      "items": {
         "$ref": "#/definitions/User"
       }
     },
