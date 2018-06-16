@@ -55,47 +55,6 @@
           }
         ]
       },
-      "put": {
-        "tags": [
-          "proofs"
-        ],
-        "summary": "Update an existing proof",
-        "description": "",
-        "operationId": "updatePet",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Pet object that needs to be added to the store",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PutProof"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "schema": {
-              "$ref": "#/definitions/GetProof"
-            },
-            "description": "Invalid ID supplied"
-          }
-        },
-        "security": [
-          {
-            "apiKey": []
-          },
-          {
-            "basic_http": []
-          }
-        ]
-      },
       "post": {
         "tags": [
           "proofs"
@@ -541,6 +500,134 @@
           }
         ]
       }
+    },
+    "/proofs/{id}/comments": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Get proof's comment list",
+        "description": "Returns list of all comments for a specific proof.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Proof id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/CommentList"
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "basic_http": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Get proof's comment list",
+        "description": "Returns list of all comments for a specific proof.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Proof id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pet object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PostComment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ProofIdResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "basic_http": []
+          }
+        ]
+      }
+    },
+    "/proofs/{id}/comments/{comment_id}": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Get comment",
+        "description": "Returns specific comment.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Proof id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "comment_id",
+            "in": "path",
+            "description": "comment id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "basic_http": []
+          }
+        ]
+      }
     }
   },
   "securityDefinitions": {
@@ -567,7 +654,7 @@
         "reviewer_id": {
           "type": "string"
         },
-        "decision":{
+        "decision": {
           "enum": [
             "null",
             "changes_required",
@@ -578,7 +665,7 @@
           "type": "string",
           "required": true
         },
-        "completed":{
+        "completed": {
           "type": "boolean",
           "required": true
         }
@@ -1247,6 +1334,7 @@
     },
     "WorkflowTemplate": {
       "type": "object",
+      "nullable": true,
       "properties": {
         "id": {
           "type": "string",
@@ -1556,6 +1644,174 @@
           },
           "id": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "GetComment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "parent_comment_id": {
+          "type": "string"
+        },
+        "proof_id": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "sequence": {
+          "type": "integer"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "reviewer": {
+          "type": "object",
+          "properties": {
+            "reviewer_id": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          }
+        },
+        "location": {
+          "$ref": "#/definitions/Location"
+        },
+        "likes": {
+          "type": "object",
+          "properties": {
+            "reviewer_id": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          }
+        },
+        "replies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetComment"
+          }
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "file_name": {
+                "type": "string"
+              },
+              "download_path": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "private": {
+          "type": "boolean"
+        },
+        "markers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Markers"
+          }
+        }
+      }
+    },
+    "Markers": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "rectangle",
+            "ellipse",
+            "line",
+            "arrow"
+          ]
+        },
+        "color": {
+          "type": "string",
+          "description": "Color in HEX format "
+        },
+        "start_point": {
+          "$ref": "#/definitions/Coordinates"
+        },
+        "end_point": {
+          "$ref": "#/definitions/Coordinates"
+        }
+      }
+    },
+    "Coordinates": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        }
+      }
+    },
+    "Location": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer"
+        },
+        "start_time": {
+          "type": "string"
+        }
+      }
+    },
+    "CommentList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/GetComment"
+      }
+    },
+    "PostComment": {
+      "type": "object",
+      "required":[
+        "comment","location"
+      ],
+      "properties": {
+        "parent_comment_id": {
+          "type": "string"
+        },
+        "proof_id": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "reviewer": {
+          "type": "object",
+          "properties": {
+            "reviewer_id": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          }
+        },
+        "location": {
+          "$ref": "#/definitions/Location"
+        },
+        "markers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Markers"
           }
         }
       }
