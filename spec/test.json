@@ -264,26 +264,18 @@
         "tags": [
           "user"
         ],
-        "summary": "Create user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "createUser",
+        "summary": "Get all users",
+        "description": "Returns list of all users.",
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Created user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
+        ,
         "responses": {
-          "default": {
-            "description": "successful operation"
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
           }
         },
         "security": [
@@ -301,9 +293,8 @@
         "tags": [
           "user"
         ],
-        "summary": "Creates list of users with given input array",
-        "description": "",
-        "operationId": "createUsersWithArrayInput",
+        "summary": "Get User",
+        "description": "Returns information about a specific user in the account.",
         "produces": [
           "application/json"
         ],
@@ -311,14 +302,17 @@
           {
             "name": "id",
             "in": "path",
-            "description": "List of user object",
+            "description": "Contact id",
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
-          "default": {
-            "description": "successful operation"
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           }
         },
         "security": [
@@ -335,26 +329,20 @@
           "user"
         ],
         "summary": "Delete user",
-        "description": "This can only be done by the logged in user.",
+        "description": "Method used for deleting users from the account. Only a user with admin rights can delete other users. Returns empty data record",
         "operationId": "deleteUser",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The name that needs to be deleted",
+            "description": "Contact id",
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "Invalid username supplied"
-          },
-          "404": {
-            "description": "User not found"
+            "description": "successful operation"
           }
         },
         "security": [
@@ -363,640 +351,729 @@
           }
         ]
       }
-    }
-  },
-  "securityDefinitions": {
-    "apiKey": {
-      "type": "apiKey",
-      "name": "header apikey",
-      "in": "header"
     },
-    "basic_http": {
-      "type": "basic",
-      "description": "Provide apiKey as Username and leave password empty"
-    },
-    "adminApiKey": {
-      "type": "apiKey",
-      "name": "Admin api key",
-      "in": "header"
-    }
-  },
-  "definitions": {
-    "User": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "first_name": {
-          "type": "string"
-        },
-        "last_name": {
-          "type": "string"
-        },
-        "account_owner": {
-          "type": "boolean"
-        },
-        "email": {
-          "type": "string"
-        },
-        "roles": {
-          "type": "array",
-          "items": {
-            "enum": [
-              "admin",
-              "manager",
-              "billing",
-              "user"
-            ],
-            "type": "string"
-          }
-        },
-        "phone": {
-          "type": "string"
-        },
-        "timezone": {
-          "type": "string"
-        },
-        "company": {
-          "type": "string"
-        },
-        "verified": {
-          "type": "boolean"
-        },
-        "active": {
-          "type": "boolean"
-        },
-        "group": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "example": "67aab501-7d6d-4b31-9bec-398fd61ec0a3"
-          }
-        }
-      }
-    },
-    "Contact": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "ec2b4aee-42b6-42f8-92cd-264d1c9d4d0c",
-          "readOnly": true
-        },
-        "type": {
-          "type": "string",
-          "description": "user or guest",
-          "readOnly": true
-        },
-        "first_name": {
-          "type": "string",
-          "description": "For contact type 'guest' null value is also allowed",
-          "example": "User",
-          "readOnly": true
-        },
-        "last_name": {
-          "type": "string",
-          "description": "For contact type 'guest' null value is also allowed",
-          "readOnly": true,
-          "example": "Name"
-        },
-        "email": {
-          "type": "string",
-          "readOnly": true,
-          "example": "name@domain.com"
-        },
-        "roles": {
-          "type": "array",
-          "readOnly": true,
-          "items": {
-            "enum": [
-              "admin",
-              "manager",
-              "billing",
-              "user"
-            ],
-            "type": "string",
-            "example": "manager"
-          },
-          "description": "For contact 'guest' value is always null"
-        },
-        "phone": {
-          "type": "string",
-          "example": "+4412345678911",
-          "readOnly": true
-        },
-        "company": {
-          "type": "string",
-          "description": "Company name",
-          "example": "ABC Inc",
-          "readOnly": true
-        },
-        "tenant": {
-          "$ref": "#/definitions/Tenant"
-        },
-        "verified": {
-          "type": "boolean",
-          "description": "For guest always false",
-          "readOnly": true
-        },
-        "blocked": {
-          "type": "boolean",
-          "readOnly": true
-        },
-        "timezone": {
-          "type": "string",
-          "example": "'Europe/London'",
-          "readOnly": true
-        }
-      }
-    },
-    "Tenant": {
-      "type": "object",
-      "properties": {
-        "tenant_id": {
-          "type": "string",
-          "readOnly": true
-        },
-        "subdomain": {
-          "type": "string",
-          "readOnly": true
-        },
-        "company_name": {
-          "type": "string",
-          "readOnly": true
-        }
-      }
-    },
-    "PutProof": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "default": "First source’s name",
-          "example": "Proof Name"
-        },
-        "owner_email": {
-          "type": "string"
-        },
-        "locked": {
-          "type": "boolean",
-          "default": false
-        },
-        "stages": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PutStage"
-          }
-        },
-        "lock_on_decisions": {
-          "type": "boolean",
-          "default": false
-        },
-        "allow_source_download": {
-          "type": "boolean",
-          "default": false
-        },
-        "secure_proofing": {
-          "type": "boolean",
-          "default": false
-        },
-        "require_sign_in": {
-          "type": "boolean",
-          "default": false
-        },
-        "suppress_all_emails": {
-          "type": "boolean",
-          "default": false,
-          "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
-        }
-      }
-    },
-    "PutStage": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "default": "Stage 1"
-        },
-        "only_one_decision": {
-          "type": "boolean",
-          "default": false
-        },
-        "members": {
-          "$ref": "#/definitions/PutMember"
-        },
-        "custom_email_subject": {
-          "type": "string",
-          "default": "null",
-          "nullable": true
-        },
-        "custom_email_message": {
-          "type": "string",
-          "default": "null",
-          "nullable": true
-        },
-        "lock": {
-          "$ref": "#/definitions/PutLock"
-        },
-        "stage_trigger": {
-          "$ref": "#/definitions/PutStageTrigger"
-        }
-      }
-    },
-    "PutMember": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "readOnly": true
-        },
-        "email": {
-          "type": "string"
-        },
-        "view": {
-          "type": "boolean",
-          "description": "Always true"
-        },
-        "comment": {
-          "type": "boolean",
-          "default": true
-        },
-        "decision": {
-          "type": "boolean",
-          "default": false
-        },
-        "manage": {
-          "type": "boolean",
-          "default": false
-        },
-        "notification": {
-          "enum": [
-            "all_activity",
-            "replies_to_my_comments",
-            "decisions",
-            "final_decision",
-            "hourly_digest",
-            "daily_digest",
-            "disabled"
-          ],
-          "type": "string",
-          "default": "all_activity"
-        }
-      }
-    },
-    "PutStageTrigger": {
-      "type": "object",
-      "properties": {
-        "trigger_id": {
-          "type": "string",
-          "readOnly": true
-        },
-        "trigger": {
-          "$ref": "#/definitions/PutTrigger"
-        },
-        "deadline": {
-          "$ref": "#/definitions/Deadline"
-        }
-      }
-    },
-    "PutTrigger": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "enum": [
-            "immediately",
-            "manual",
-            "on_completion",
-            "on_approved",
-            "on_approved_or_approvedwithchanges",
-            "deadline_reached"
-          ],
-          "type": "string"
-        },
-        "parent_stage_id": {
-          "type": "string"
-        }
-      }
-    },
-    "PutLock": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "enum": [
-            "manual",
-            "on_completion",
-            "all_dependent_stages_started",
-            "next_stage_starts"
-          ],
-          "type": "string"
-        },
-        "next_stage_id": {
-          "type": "string"
-        }
-      }
-    },
-    "PostProof": {
-      "type": "object",
-      "required":[
-        "input",
-        "stages"
-      ],
-      "properties": {
-        "version_previous_id": {
-          "type": "string",
-          "description": "If provided and the user has rights to create a new version, this proof will become the new version of the proof.",
-          "required": false
-        },
-        "name": {
-          "type": "string",
-          "default": "First source’s name",
-          "example": "Proof Name"
-        },
-        "input": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "source": {
-                "type": "string",
-                "description": "URL to proof file, can be parametrized",
-                "required": true
-              },
-              "type": {
-                "enum": [
-                  "file",
-                  "web-static",
-                  "web-interactive"
-                ],
-                "type": "string",
-                "required": true
-              }
+    "/contacts": {
+      "get": {
+        "summary": "Get all contacts",
+        "description": "Returns list of all contacts.",
+        "produces": [
+          "application/json"
+        ],
+        ,
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Contacts"
             }
           }
         },
-        "combine": {
-          "type": "boolean",
-          "default": false,
-          "description": "If true the input sources are combined into one proof in the order passed through. The parameter is only available for the Business and Enterprise edition. For starter edtiton forced to false",
-          "required": false
-        },
-        "stages": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PostStage"
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "basic_http": []
+          }
+        ]
+      }
+    },
+    "/contacts/{id}": {
+      "get": {
+        "summary": "Get Contact",
+        "description": "Returns information about a specific contact in the account.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Contact id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
           }
         },
-        "lock_on_decisions": {
-          "type": "boolean",
-          "default": false
-        },
-        "allow_source_download": {
-          "type": "boolean",
-          "default": false
-        },
-        "secure_proofing": {
-          "type": "boolean",
-          "default": false
-        },
-        "require_sign_in": {
-          "type": "boolean",
-          "default": false
-        },
-        "suppress_all_emails": {
-          "type": "boolean",
-          "default": false,
-          "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
-        },
-        "workflow_template": {
-          "$ref": "#/definitions/WorkflowTemplate"
-        }
-      }
-    },
-    "PostStage": {
-      "type": "object",
-      "required":[
-        "members"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "default": "Stage 1"
-        },
-        "only_one_decision": {
-          "type": "boolean",
-          "default": false
-        },
-        "members": {
-          "$ref": "#/definitions/PostMember"
-        },
-        "custom_email_subject": {
-          "type": "string",
-          "default": "null"
-        },
-        "custom_email_message": {
-          "type": "string",
-          "default": "null"
-        },
-        "lock": {
-          "$ref": "#/definitions/PostLock"
-        },
-        "stage_trigger": {
-          "$ref": "#/definitions/PostStageTrigger"
-        }
-      }
-    },
-    "PostMember": {
-      "type": "object",
-      "required":[
-        "email"
-      ],
-      "properties": {
-        "email": {
-          "type": "string",
-          "required": true
-        },
-        "view": {
-          "type": "boolean",
-          "description": "Always true"
-        },
-        "comment": {
-          "type": "boolean",
-          "default": true
-        },
-        "decision": {
-          "type": "boolean",
-          "default": false
-        },
-        "manage": {
-          "type": "boolean",
-          "default": false
-        },
-        "notification": {
-          "enum": [
-            "all_activity",
-            "replies_to_my_comments",
-            "decisions",
-            "final_decision",
-            "hourly_digest",
-            "daily_digest",
-            "disabled"
-          ],
-          "type": "string",
-          "default": "all_activity"
-        }
-      }
-    },
-    "PostStageTrigger": {
-      "type": "object",
-      "properties": {
-        "trigger_id": {
-          "type": "string",
-          "readOnly": true
-        },
-        "trigger": {
-          "$ref": "#/definitions/PostTrigger"
-        },
-        "deadline": {
-          "$ref": "#/definitions/Deadline"
-        }
-      }
-    },
-    "PostTrigger": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "enum": [
-            "immediately",
-            "manual",
-            "on_completion",
-            "on_approved",
-            "on_approved_or_approvedwithchanges",
-            "deadline_reached"
-          ],
-          "type": "string",
-          "default": null
-        },
-        "parent_stage_name": {
-          "type": "string",
-          "default": null
-        }
-      }
-    },
-    "PostLock": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "enum": [
-            "manual",
-            "on_completion",
-            "all_dependent_stages_started",
-            "next_stage_starts"
-          ],
-          "type": "string",
-          "default": null
-        },
-        "next_stage_name": {
-          "type": "string",
-          "default": null
-        }
-      }
-    },
-    "GetProof": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "7c7f0b55-0a34-4fc7-a009-798051a22b61"
-        },
-        "name": {
-          "type": "string",
-          "default": "First source’s name",
-          "example": "Proof Name"
-        },
-        "owner": {
-          "$ref": "#/definitions/Contact"
-        },
-        "created_by": {
-          "$ref": "#/definitions/Contact"
-        },
-        "version": {
-          "type": "integer"
-        },
-        "versions": {
-          "$ref": "#/definitions/Versions"
-        },
-        "souce_files": {
-          "$ref": "#/definitions/SourceFiles"
-        },
-        "status": {
-          "type": "string",
-          "example": "‘uploading’ / ‘in_progress’ / ‘completed’ / ‘failed’",
-          "description": "The overall status of the proof",
-          "readOnly": true
-        },
-        "locked": {
-          "type": "boolean",
-          "default": false
-        },
-        "decision_status": {
-          "enum": [
-            "null",
-            "changes_required",
-            "approved_with_changes",
-            "approved",
-            "not_relevant"
-          ],
-          "type": "string",
-          "default": "null",
-          "description": "The overall proof status calculated from all the stages",
-          "readOnly": true
-        },
-        "public_link": {
-          "type": "string",
-          "description": "Either null or 'https://ziflow.ziflow.io/proof/84n0ntlb1aapkdmchjgkcn9b8j'",
-          "readOnly": true
-        },
-        "stages": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Stage"
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "basic_http": []
           }
-        },
-        "lock_on_decisions": {
-          "type": "boolean",
-          "default": false
-        },
-        "allow_source_download": {
-          "type": "boolean",
-          "default": false
-        },
-        "secure_proofing": {
-          "type": "boolean",
-          "default": false
-        },
-        "require_sign_in": {
-          "type": "boolean",
-          "default": false
-        },
-        "download_link": {
-          "type": "string",
-          "description": "null or URL to download the source file(s)",
-          "example": "https://ziflow-proofs.s3.com/Proofs/b5ffa-2d2f-d9dd7/5f61-b1d3-78be39/ProofName.extension"
-        },
-        "suppress_all_emails": {
-          "type": "boolean",
-          "default": false,
-          "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
-        },
-        "workflow_template": {
-          "$ref": "#/definitions/WorkflowTemplate"
-        }
+        ]
       }
     },
-    "Input": {
-      "type": "array",
-      "items": {
+    "securityDefinitions": {
+      "apiKey": {
+        "type": "apiKey",
+        "name": "header apikey",
+        "in": "header"
+      },
+      "basic_http": {
+        "type": "basic",
+        "description": "Provide apiKey as Username and leave password empty"
+      },
+      "adminApiKey": {
+        "type": "apiKey",
+        "name": "Admin api key",
+        "in": "header"
+      }
+    },
+    "definitions": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "account_owner": {
+            "type": "boolean"
+          },
+          "email": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "admin",
+                "manager",
+                "billing",
+                "user"
+              ],
+              "type": "string"
+            }
+          },
+          "phone": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "group": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "67aab501-7d6d-4b31-9bec-398fd61ec0a3"
+            }
+          }
+        }
+      },
+      "Users": {
+        "type": "array",
+        "item": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "Contact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "ec2b4aee-42b6-42f8-92cd-264d1c9d4d0c",
+            "readOnly": true
+          },
+          "type": {
+            "type": "string",
+            "description": "user or guest",
+            "readOnly": true
+          },
+          "first_name": {
+            "type": "string",
+            "description": "For contact type 'guest' null value is also allowed",
+            "example": "User",
+            "readOnly": true
+          },
+          "last_name": {
+            "type": "string",
+            "description": "For contact type 'guest' null value is also allowed",
+            "readOnly": true,
+            "example": "Name"
+          },
+          "email": {
+            "type": "string",
+            "readOnly": true,
+            "example": "name@domain.com"
+          },
+          "roles": {
+            "type": "array",
+            "readOnly": true,
+            "items": {
+              "enum": [
+                "admin",
+                "manager",
+                "billing",
+                "user"
+              ],
+              "type": "string",
+              "example": "manager"
+            },
+            "description": "For contact 'guest' value is always null"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+4412345678911",
+            "readOnly": true
+          },
+          "company": {
+            "type": "string",
+            "description": "Company name",
+            "example": "ABC Inc",
+            "readOnly": true
+          },
+          "tenant": {
+            "$ref": "#/definitions/Tenant"
+          },
+          "verified": {
+            "type": "boolean",
+            "description": "For guest always false",
+            "readOnly": true
+          },
+          "blocked": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "timezone": {
+            "type": "string",
+            "example": "'Europe/London'",
+            "readOnly": true
+          }
+        }
+      },
+      "Contacts": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Contact"
+        }
+      },
+      "Tenant": {
+        "type": "object",
+        "properties": {
+          "tenant_id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "subdomain": {
+            "type": "string",
+            "readOnly": true
+          },
+          "company_name": {
+            "type": "string",
+            "readOnly": true
+          }
+        }
+      },
+      "PutProof": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "First source’s name",
+            "example": "Proof Name"
+          },
+          "owner_email": {
+            "type": "string"
+          },
+          "locked": {
+            "type": "boolean",
+            "default": false
+          },
+          "stages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/PutStage"
+            }
+          },
+          "lock_on_decisions": {
+            "type": "boolean",
+            "default": false
+          },
+          "allow_source_download": {
+            "type": "boolean",
+            "default": false
+          },
+          "secure_proofing": {
+            "type": "boolean",
+            "default": false
+          },
+          "require_sign_in": {
+            "type": "boolean",
+            "default": false
+          },
+          "suppress_all_emails": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
+          }
+        }
+      },
+      "PutStage": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "Stage 1"
+          },
+          "only_one_decision": {
+            "type": "boolean",
+            "default": false
+          },
+          "members": {
+            "$ref": "#/definitions/PutMember"
+          },
+          "custom_email_subject": {
+            "type": "string",
+            "default": "null",
+            "nullable": true
+          },
+          "custom_email_message": {
+            "type": "string",
+            "default": "null",
+            "nullable": true
+          },
+          "lock": {
+            "$ref": "#/definitions/PutLock"
+          },
+          "stage_trigger": {
+            "$ref": "#/definitions/PutStageTrigger"
+          }
+        }
+      },
+      "PutMember": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "email": {
+            "type": "string"
+          },
+          "view": {
+            "type": "boolean",
+            "description": "Always true"
+          },
+          "comment": {
+            "type": "boolean",
+            "default": true
+          },
+          "decision": {
+            "type": "boolean",
+            "default": false
+          },
+          "manage": {
+            "type": "boolean",
+            "default": false
+          },
+          "notification": {
+            "enum": [
+              "all_activity",
+              "replies_to_my_comments",
+              "decisions",
+              "final_decision",
+              "hourly_digest",
+              "daily_digest",
+              "disabled"
+            ],
+            "type": "string",
+            "default": "all_activity"
+          }
+        }
+      },
+      "PutStageTrigger": {
+        "type": "object",
+        "properties": {
+          "trigger_id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "trigger": {
+            "$ref": "#/definitions/PutTrigger"
+          },
+          "deadline": {
+            "$ref": "#/definitions/Deadline"
+          }
+        }
+      },
+      "PutTrigger": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "immediately",
+              "manual",
+              "on_completion",
+              "on_approved",
+              "on_approved_or_approvedwithchanges",
+              "deadline_reached"
+            ],
+            "type": "string"
+          },
+          "parent_stage_id": {
+            "type": "string"
+          }
+        }
+      },
+      "PutLock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "manual",
+              "on_completion",
+              "all_dependent_stages_started",
+              "next_stage_starts"
+            ],
+            "type": "string"
+          },
+          "next_stage_id": {
+            "type": "string"
+          }
+        }
+      },
+      "PostProof": {
+        "type": "object",
+        "required": [
+          "input",
+          "stages"
+        ],
+        "properties": {
+          "version_previous_id": {
+            "type": "string",
+            "description": "If provided and the user has rights to create a new version, this proof will become the new version of the proof.",
+            "required": false
+          },
+          "name": {
+            "type": "string",
+            "default": "First source’s name",
+            "example": "Proof Name"
+          },
+          "input": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "description": "URL to proof file, can be parametrized",
+                  "required": true
+                },
+                "type": {
+                  "enum": [
+                    "file",
+                    "web-static",
+                    "web-interactive"
+                  ],
+                  "type": "string",
+                  "required": true
+                }
+              }
+            }
+          },
+          "combine": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true the input sources are combined into one proof in the order passed through. The parameter is only available for the Business and Enterprise edition. For starter edtiton forced to false",
+            "required": false
+          },
+          "stages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/PostStage"
+            }
+          },
+          "lock_on_decisions": {
+            "type": "boolean",
+            "default": false
+          },
+          "allow_source_download": {
+            "type": "boolean",
+            "default": false
+          },
+          "secure_proofing": {
+            "type": "boolean",
+            "default": false
+          },
+          "require_sign_in": {
+            "type": "boolean",
+            "default": false
+          },
+          "suppress_all_emails": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
+          },
+          "workflow_template": {
+            "$ref": "#/definitions/WorkflowTemplate"
+          }
+        }
+      },
+      "PostStage": {
+        "type": "object",
+        "required": [
+          "members"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "Stage 1"
+          },
+          "only_one_decision": {
+            "type": "boolean",
+            "default": false
+          },
+          "members": {
+            "$ref": "#/definitions/PostMember"
+          },
+          "custom_email_subject": {
+            "type": "string",
+            "default": "null"
+          },
+          "custom_email_message": {
+            "type": "string",
+            "default": "null"
+          },
+          "lock": {
+            "$ref": "#/definitions/PostLock"
+          },
+          "stage_trigger": {
+            "$ref": "#/definitions/PostStageTrigger"
+          }
+        }
+      },
+      "PostMember": {
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "required": true
+          },
+          "view": {
+            "type": "boolean",
+            "description": "Always true"
+          },
+          "comment": {
+            "type": "boolean",
+            "default": true
+          },
+          "decision": {
+            "type": "boolean",
+            "default": false
+          },
+          "manage": {
+            "type": "boolean",
+            "default": false
+          },
+          "notification": {
+            "enum": [
+              "all_activity",
+              "replies_to_my_comments",
+              "decisions",
+              "final_decision",
+              "hourly_digest",
+              "daily_digest",
+              "disabled"
+            ],
+            "type": "string",
+            "default": "all_activity"
+          }
+        }
+      },
+      "PostStageTrigger": {
+        "type": "object",
+        "properties": {
+          "trigger_id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "trigger": {
+            "$ref": "#/definitions/PostTrigger"
+          },
+          "deadline": {
+            "$ref": "#/definitions/Deadline"
+          }
+        }
+      },
+      "PostTrigger": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "immediately",
+              "manual",
+              "on_completion",
+              "on_approved",
+              "on_approved_or_approvedwithchanges",
+              "deadline_reached"
+            ],
+            "type": "string",
+            "default": null
+          },
+          "parent_stage_name": {
+            "type": "string",
+            "default": null
+          }
+        }
+      },
+      "PostLock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "manual",
+              "on_completion",
+              "all_dependent_stages_started",
+              "next_stage_starts"
+            ],
+            "type": "string",
+            "default": null
+          },
+          "next_stage_name": {
+            "type": "string",
+            "default": null
+          }
+        }
+      },
+      "GetProof": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "7c7f0b55-0a34-4fc7-a009-798051a22b61"
+          },
+          "name": {
+            "type": "string",
+            "default": "First source’s name",
+            "example": "Proof Name"
+          },
+          "owner": {
+            "$ref": "#/definitions/Contact"
+          },
+          "created_by": {
+            "$ref": "#/definitions/Contact"
+          },
+          "version": {
+            "type": "integer"
+          },
+          "versions": {
+            "$ref": "#/definitions/Versions"
+          },
+          "souce_files": {
+            "$ref": "#/definitions/SourceFiles"
+          },
+          "status": {
+            "type": "string",
+            "example": "‘uploading’ / ‘in_progress’ / ‘completed’ / ‘failed’",
+            "description": "The overall status of the proof",
+            "readOnly": true
+          },
+          "locked": {
+            "type": "boolean",
+            "default": false
+          },
+          "decision_status": {
+            "enum": [
+              "null",
+              "changes_required",
+              "approved_with_changes",
+              "approved",
+              "not_relevant"
+            ],
+            "type": "string",
+            "default": "null",
+            "description": "The overall proof status calculated from all the stages",
+            "readOnly": true
+          },
+          "public_link": {
+            "type": "string",
+            "description": "Either null or 'https://ziflow.ziflow.io/proof/84n0ntlb1aapkdmchjgkcn9b8j'",
+            "readOnly": true
+          },
+          "stages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Stage"
+            }
+          },
+          "lock_on_decisions": {
+            "type": "boolean",
+            "default": false
+          },
+          "allow_source_download": {
+            "type": "boolean",
+            "default": false
+          },
+          "secure_proofing": {
+            "type": "boolean",
+            "default": false
+          },
+          "require_sign_in": {
+            "type": "boolean",
+            "default": false
+          },
+          "download_link": {
+            "type": "string",
+            "description": "null or URL to download the source file(s)",
+            "example": "https://ziflow-proofs.s3.com/Proofs/b5ffa-2d2f-d9dd7/5f61-b1d3-78be39/ProofName.extension"
+          },
+          "suppress_all_emails": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
+          },
+          "workflow_template": {
+            "$ref": "#/definitions/WorkflowTemplate"
+          }
+        }
+      },
+      "Input": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "URL to proof file, can be parametrized"
+            },
+            "type": {
+              "enum": [
+                "file",
+                "web-static",
+                "web-interactive"
+              ],
+              "type": "string"
+            }
+          }
+        }
+      },
+      "File": {
         "type": "object",
         "properties": {
           "source": {
@@ -1012,343 +1089,325 @@
             "type": "string"
           }
         }
-      }
-    },
-    "File": {
-      "type": "object",
-      "properties": {
-        "source": {
-          "type": "string",
-          "description": "URL to proof file, can be parametrized"
-        },
-        "type": {
-          "enum": [
-            "file",
-            "web-static",
-            "web-interactive"
-          ],
-          "type": "string"
-        }
-      }
-    },
-    "WorkflowTemplate": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Available only on Enterprise edition. Id of an active template required to create proof from template"
-        },
-        "name": {
-          "type": "string",
-          "description": "Available only on Enterprise edition"
-        }
-      }
-    },
-    "Stage": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "readOnly": true
-        },
-        "name": {
-          "type": "string",
-          "default": "Stage 1"
-        },
-        "deadline": {
-          "type": "string",
-          "description": "Deadline date and time calculated when stage starts i.e. '2012-02-22T02:00:00.000Z'",
-          "default": "null",
-          "readOnly": true
-        },
-        "only_one_decision": {
-          "type": "boolean",
-          "default": false
-        },
-        "status": {
-          "enum": [
-            "null",
-            "changes_required",
-            "approved_with_changes",
-            "approved",
-            "not_relevant"
-          ],
-          "type": "string",
-          "default": "null",
-          "description": "The overall proof status calculated from all the reviewer's decisions",
-          "readOnly": true
-        },
-        "members": {
-          "$ref": "#/definitions/Member"
-        },
-        "custom_email_subject": {
-          "type": "string",
-          "default": "null"
-        },
-        "custom_email_message": {
-          "type": "string",
-          "default": "null"
-        },
-        "lock": {
-          "$ref": "#/definitions/Lock"
-        },
-        "stage_trigger": {
-          "$ref": "#/definitions/StageTrigger"
-        }
-      }
-    },
-    "StageTrigger": {
-      "type": "object",
-      "properties": {
-        "trigger_id": {
-          "type": "string",
-          "readOnly": true
-        },
-        "trigger": {
-          "$ref": "#/definitions/Trigger"
-        },
-        "deadline": {
-          "$ref": "#/definitions/Deadline"
-        }
-      }
-    },
-    "Deadline": {
-      "type": "object",
-      "properties": {
-        "days": {
-          "type": "integer"
-        },
-        "time": {
-          "type": "string",
-          "example": "09:00:00.000Z",
-          "description": "Time in UTC, required only if days=0 and has to be at least 1 hour ahead from stage start"
-        }
-      }
-    },
-    "Trigger": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "enum": [
-            "immediately",
-            "manual",
-            "on_completion",
-            "on_approved",
-            "on_approved_or_approvedwithchanges",
-            "deadline_reached"
-          ],
-          "type": "string"
-        },
-        "parent_stage_id": {
-          "type": "string"
-        },
-        "parent_stage_name": {
-          "type": "string"
-        }
-      }
-    },
-    "Lock": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "enum": [
-            "manual",
-            "on_completion",
-            "all_dependent_stages_started",
-            "next_stage_starts"
-          ],
-          "type": "string"
-        },
-        "next_stage_name": {
-          "type": "string"
-        },
-        "next_stage_id": {
-          "type": "string"
-        }
-      }
-    },
-    "Member": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "readOnly": true
-        },
-        "contact": {
-          "$ref": "#/definitions/Contact"
-        },
-        "email": {
-          "type": "string"
-        },
-        "view": {
-          "type": "boolean",
-          "description": "Always true"
-        },
-        "comment": {
-          "type": "boolean",
-          "default": true
-        },
-        "decision": {
-          "type": "boolean",
-          "default": false
-        },
-        "manage": {
-          "type": "boolean",
-          "default": false
-        },
-        "notification": {
-          "enum": [
-            "all_activity",
-            "replies_to_my_comments",
-            "decisions",
-            "final_decision",
-            "hourly_digest",
-            "daily_digest",
-            "disabled"
-          ],
-          "type": "string",
-          "default": "all_activity"
-        },
-        "progress": {
-          "$ref": "#/definitions/Progress"
-        },
-        "proof_url": {
-          "type": "string",
-          "readOnly": true
-        },
-        "decision_status": {
-          "enum": [
-            "null",
-            "changes_required",
-            "approved_with_changes",
-            "approved",
-            "not_relevant"
-          ],
-          "type": "string",
-          "readOnly": true
-        },
-        "comments": {
-          "type": "integer",
-          "readOnly": true
-        },
-        "replies": {
-          "type": "integer",
-          "readOnly": true
-        }
-      }
-    },
-    "Progress": {
-      "type": "object",
-      "properties": {
-        "notified": {
-          "type": "boolean",
-          "readOnly": true
-        },
-        "opened": {
-          "type": "boolean",
-          "readOnly": true
-        },
-        "commented": {
-          "type": "boolean",
-          "readOnly": true
-        },
-        "completed": {
-          "type": "boolean",
-          "readOnly": true
-        }
-      }
-    },
-    "SourceFiles": {
-      "type": "array",
-      "items": {
+      },
+      "WorkflowTemplate": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "readOnly": true
+            "description": "Available only on Enterprise edition. Id of an active template required to create proof from template"
           },
-          "type": {
+          "name": {
             "type": "string",
-            "example": "file, web-static, web-interactive",
+            "description": "Available only on Enterprise edition"
+          }
+        }
+      },
+      "Stage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
             "readOnly": true
           },
           "name": {
             "type": "string",
-            "description": "File name",
+            "default": "Stage 1"
+          },
+          "deadline": {
+            "type": "string",
+            "description": "Deadline date and time calculated when stage starts i.e. '2012-02-22T02:00:00.000Z'",
+            "default": "null",
             "readOnly": true
           },
-          "size": {
-            "type": "integer",
+          "only_one_decision": {
+            "type": "boolean",
+            "default": false
+          },
+          "status": {
+            "enum": [
+              "null",
+              "changes_required",
+              "approved_with_changes",
+              "approved",
+              "not_relevant"
+            ],
+            "type": "string",
+            "default": "null",
+            "description": "The overall proof status calculated from all the reviewer's decisions",
             "readOnly": true
+          },
+          "members": {
+            "$ref": "#/definitions/Member"
+          },
+          "custom_email_subject": {
+            "type": "string",
+            "default": "null"
+          },
+          "custom_email_message": {
+            "type": "string",
+            "default": "null"
+          },
+          "lock": {
+            "$ref": "#/definitions/Lock"
+          },
+          "stage_trigger": {
+            "$ref": "#/definitions/StageTrigger"
           }
         }
-      }
-    },
-    "Versions": {
-      "type": "array",
-      "items": {
+      },
+      "StageTrigger": {
         "type": "object",
-        "readOnly": true,
         "properties": {
-          "version": {
-            "type": "integer",
-            "readOnly": true
-          },
-          "version_id": {
+          "trigger_id": {
             "type": "string",
             "readOnly": true
-          }
-        }
-      }
-    },
-    "ProofList": {
-      "type": "object",
-      "properties": {
-        "proofs": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/GetProof"
-          }
-        },
-        "count": {
-          "type": "integer"
-        },
-        "page": {
-          "type": "integer"
-        },
-        "has_more": {
-          "type": "boolean"
-        }
-      }
-    },
-    "ProofIdResponse": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "ProofFromTemplate": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "workflow_template": {
-            "$ref": "#/definitions/WorkflowTemplate"
           },
-          "id": {
+          "trigger": {
+            "$ref": "#/definitions/Trigger"
+          },
+          "deadline": {
+            "$ref": "#/definitions/Deadline"
+          }
+        }
+      },
+      "Deadline": {
+        "type": "object",
+        "properties": {
+          "days": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "string",
+            "example": "09:00:00.000Z",
+            "description": "Time in UTC, required only if days=0 and has to be at least 1 hour ahead from stage start"
+          }
+        }
+      },
+      "Trigger": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "immediately",
+              "manual",
+              "on_completion",
+              "on_approved",
+              "on_approved_or_approvedwithchanges",
+              "deadline_reached"
+            ],
+            "type": "string"
+          },
+          "parent_stage_id": {
+            "type": "string"
+          },
+          "parent_stage_name": {
             "type": "string"
           }
         }
+      },
+      "Lock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "manual",
+              "on_completion",
+              "all_dependent_stages_started",
+              "next_stage_starts"
+            ],
+            "type": "string"
+          },
+          "next_stage_name": {
+            "type": "string"
+          },
+          "next_stage_id": {
+            "type": "string"
+          }
+        }
+      },
+      "Member": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "contact": {
+            "$ref": "#/definitions/Contact"
+          },
+          "email": {
+            "type": "string"
+          },
+          "view": {
+            "type": "boolean",
+            "description": "Always true"
+          },
+          "comment": {
+            "type": "boolean",
+            "default": true
+          },
+          "decision": {
+            "type": "boolean",
+            "default": false
+          },
+          "manage": {
+            "type": "boolean",
+            "default": false
+          },
+          "notification": {
+            "enum": [
+              "all_activity",
+              "replies_to_my_comments",
+              "decisions",
+              "final_decision",
+              "hourly_digest",
+              "daily_digest",
+              "disabled"
+            ],
+            "type": "string",
+            "default": "all_activity"
+          },
+          "progress": {
+            "$ref": "#/definitions/Progress"
+          },
+          "proof_url": {
+            "type": "string",
+            "readOnly": true
+          },
+          "decision_status": {
+            "enum": [
+              "null",
+              "changes_required",
+              "approved_with_changes",
+              "approved",
+              "not_relevant"
+            ],
+            "type": "string",
+            "readOnly": true
+          },
+          "comments": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "replies": {
+            "type": "integer",
+            "readOnly": true
+          }
+        }
+      },
+      "Progress": {
+        "type": "object",
+        "properties": {
+          "notified": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "opened": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "commented": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "completed": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        }
+      },
+      "SourceFiles": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "readOnly": true
+            },
+            "type": {
+              "type": "string",
+              "example": "file, web-static, web-interactive",
+              "readOnly": true
+            },
+            "name": {
+              "type": "string",
+              "description": "File name",
+              "readOnly": true
+            },
+            "size": {
+              "type": "integer",
+              "readOnly": true
+            }
+          }
+        }
+      },
+      "Versions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "readOnly": true,
+          "properties": {
+            "version": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "version_id": {
+              "type": "string",
+              "readOnly": true
+            }
+          }
+        }
+      },
+      "ProofList": {
+        "type": "object",
+        "properties": {
+          "proofs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/GetProof"
+            }
+          },
+          "count": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "has_more": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProofIdResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ProofFromTemplate": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "workflow_template": {
+              "$ref": "#/definitions/WorkflowTemplate"
+            },
+            "id": {
+              "type": "string"
+            }
+          }
+        }
       }
+    },
+    "externalDocs": {
+      "description": "Find out more about Swagger",
+      "url": "http://swagger.io"
     }
-  },
-  "externalDocs": {
-    "description": "Find out more about Swagger",
-    "url": "http://swagger.io"
   }
-}
