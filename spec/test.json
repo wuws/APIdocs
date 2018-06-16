@@ -14,7 +14,7 @@
     "/proofs": {
       "get": {
         "tags": [
-          "proof"
+          "proofs"
         ],
         "summary": "Get proof list",
         "description": "Returns array of proof object",
@@ -150,7 +150,7 @@
           "proofs"
         ],
         "summary": "Get specific proof by ID",
-        "description": "Multiple status values can be provided with comma separated strings",
+        "description": "Returns information about a single proof version.",
         "produces": [
           "application/json"
         ],
@@ -247,6 +247,132 @@
             "schema": {
               "$ref": "#/definitions/GetProof"
             }
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "basic_http": []
+          }
+        ]
+      }
+    },
+    "/proofs/{id}/reviewers/status": {
+      "post": {
+        "tags": [
+          "proofs"
+        ],
+        "summary": "Post reviewer's status",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Proof id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReviewersStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Member"
+            },
+            "description": "Updated reviewer object"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "basic_http": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "proofs"
+        ],
+        "summary": "Update reviewer's status",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Proof id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReviewersStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated reviewer object",
+            "schema": {
+              "$ref": "#/definitions/Member"
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "basic_http": []
+          }
+        ]
+      }
+    },
+    "/proofs/{id}/allVersions": {
+      "delete": {
+        "tags": [
+          "proofs"
+        ],
+        "summary": "Deletes all proof's versions",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Proof id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty response body"
           }
         },
         "security": [
@@ -434,6 +560,30 @@
     }
   },
   "definitions": {
+    "ReviewersStatus": {
+      "type": "object",
+      "description": "Reviewer id is optional. \n Either decision or completed must be provided dependent on user's review permissions",
+      "properties": {
+        "reviewer_id": {
+          "type": "string"
+        },
+        "decision":{
+          "enum": [
+            "null",
+            "changes_required",
+            "approved_with_changes",
+            "approved",
+            "not_relevant"
+          ],
+          "type": "string",
+          "required": true
+        },
+        "completed":{
+          "type": "boolean",
+          "required": true
+        }
+      }
+    },
     "User": {
       "type": "object",
       "properties": {
@@ -1417,11 +1567,12 @@
   },
   "tags": [
     {
-      "people": {
-        "name": "people",
-        "description": "In Ziflow we have two type of contacts. One of them are Ziflow users and second one are all the guests that might have been invited to your proofs. Each contact contains following set of information."
-      }
+      "name": "people",
+      "description": "In Ziflow we have two type of contacts. \n One of them are Ziflow users and second one are all the guests that might have been invited to your proofs."
+    },
+    {
+      "name": "proofs",
+      "description": "Proofs are one of the fundamental building blocks of Ziflow. \n It is important to note the distinction between how proofs are represented within the application vs the API: \n Application: only the latest version of a proof visible to a logged in the user is displayed - if a proof has 4 versions, the user would see v4 with v1 to v3 sitting “behind” this latest version. \n API: each version is its own proof object and versions are linked by use of a parent ID, thereby creating a linked list of proof objects."
     }
   ]
-
 }
