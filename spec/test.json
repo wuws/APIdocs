@@ -269,7 +269,6 @@
         "produces": [
           "application/json"
         ],
-        ,
         "responses": {
           "200": {
             "description": "successful operation",
@@ -359,7 +358,6 @@
         "produces": [
           "application/json"
         ],
-        ,
         "responses": {
           "200": {
             "description": "successful operation",
@@ -1411,3 +1409,4 @@
       "url": "http://swagger.io"
     }
   }
+}
