@@ -265,7 +265,7 @@
           "proofs"
         ],
         "summary": "Post reviewer's status",
-        "description": "",
+        "description": "Reviewer id is optional. \n Either decision or completed must be provided dependent on user's review permissions",
         "consumes": [
           "application/json"
         ],
@@ -312,7 +312,7 @@
           "proofs"
         ],
         "summary": "Update reviewer's status",
-        "description": "",
+        "description": "Reviewer id is optional. \n Either decision or completed must be provided dependent on user's review permissions",
         "consumes": [
           "application/json"
         ],
@@ -562,7 +562,7 @@
   "definitions": {
     "ReviewersStatus": {
       "type": "object",
-      "description": "Reviewer id is optional. \n Either decision or completed must be provided dependent on user's review permissions",
+      "description": "",
       "properties": {
         "reviewer_id": {
           "type": "string"
