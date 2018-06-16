@@ -262,7 +262,7 @@
     "/users": {
       "get": {
         "tags": [
-          "user"
+          "people"
         ],
         "summary": "Get all users",
         "description": "Returns list of all users.",
@@ -290,7 +290,7 @@
     "/users/{id}": {
       "get": {
         "tags": [
-          "user"
+          "people"
         ],
         "summary": "Get User",
         "description": "Returns information about a specific user in the account.",
@@ -325,7 +325,7 @@
       },
       "delete": {
         "tags": [
-          "user"
+          "people"
         ],
         "summary": "Delete user",
         "description": "Method used for deleting users from the account. Only a user with admin rights can delete other users. Returns empty data record",
@@ -354,7 +354,7 @@
     "/contacts": {
       "get": {
         "tags": [
-          "contact"
+          "people"
         ],
         "summary": "Get all contacts",
         "description": "Returns list of all contacts.",
@@ -382,7 +382,7 @@
     "/contacts/{id}": {
       "get": {
         "tags": [
-          "contact"
+          "people"
         ],
         "summary": "Get Contact",
         "description": "Returns information about a specific contact in the account.",
@@ -1414,5 +1414,14 @@
   "externalDocs": {
     "description": "Find out more about Swagger",
     "url": "http://swagger.io"
-  }
+  },
+  "tags": [
+    {
+      "people": {
+        "name": "people",
+        "description": "In Ziflow we have two type of contacts. One of them are Ziflow users and second one are all the guests that might have been invited to your proofs. Each contact contains following set of information."
+      }
+    }
+  ]
+
 }
