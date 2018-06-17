@@ -2200,7 +2200,7 @@
         "replies": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/GetComment"
+            "$ref": "#/definitions/Reply"
           }
         },
         "attachments": {
@@ -2332,6 +2332,102 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Markers"
+          }
+        }
+      }
+    },
+    "Reply":{
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "8c265dc2-654d-4f10-99d6-b3e82417da70"
+        },
+        "parent_comment_id": {
+          "type": "string",
+          "example": "bc8bb9f9-4c5f-4df7-8022-1f9a61e697fe"
+        },
+        "proof_id": {
+          "type": "string",
+          "example": "43d6beaa-7e00-45a7-b0a7-3ec05f8cae10"
+        },
+        "comment": {
+          "type": "string",
+          "example": "Agree"
+        },
+        "sequence": {
+          "type": "integer",
+          "example": 1
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2018-06-12T21:05:26.256Z"
+        },
+        "reviewer": {
+          "type": "object",
+          "properties": {
+            "reviewer_id": {
+              "type": "string",
+              "example": "ed95536b-09f6-4512-a875-bc9ed836ba46"
+            },
+            "email": {
+              "type": "string",
+              "example": "name@domain.com"
+            }
+          }
+        },
+        "location": {
+          "$ref": "#/definitions/Location"
+        },
+        "likes": {
+          "type": "object",
+          "properties": {
+            "reviewer_id": {
+              "type": "string",
+              "example": "47e44668-165a-458d-8b68-2b3d727894f9"
+            },
+            "email": {
+              "type": "string",
+              "example": "designer@domain.com"
+            }
+          }
+        },
+        "replies": {
+          "type": "array",
+          "items": {
+            "type": null,
+            "example": null
+          }
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "file_name": {
+                "type": "string",
+                "example": "somejpg.jpg"
+              },
+              "download_path": {
+                "type": "string",
+                "example": "https://domain-ziflow.aws.com/5rk3bk900e7jm8tmqriogll3jl/somejpg.jpg"
+              }
+            }
+          }
+        },
+        "deleted": {
+          "type": "boolean",
+          "example": false
+        },
+        "private": {
+          "type": "boolean",
+          "example": false
+        },
+        "markers": {
+          "type": "array",
+          "items": {
+            "type": null,
+            "example": null
           }
         }
       }
