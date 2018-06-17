@@ -1591,7 +1591,7 @@
         "trigger_id": {
           "type": "string",
           "readOnly": true,
-          "example":"98ece0e3-7030-42be-8d45-2700109e1577"
+          "example": "98ece0e3-7030-42be-8d45-2700109e1577"
         },
         "trigger": {
           "$ref": "#/definitions/PostTrigger"
@@ -1676,7 +1676,12 @@
           "$ref": "#/definitions/SourceFiles"
         },
         "status": {
-          "enum": ["uploading", "in_progress", "completed", "failed"],
+          "enum": [
+            "uploading",
+            "in_progress",
+            "completed",
+            "failed"
+          ],
           "type": "string",
           "example": "in_progress",
           "description": "The overall status of the proof",
@@ -1775,11 +1780,13 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Available only on Enterprise edition. Id of an active template required to create proof from template"
+          "description": "Available only on Enterprise edition. Id of an active template required to create proof from template",
+          "example": "43d6beaa-7e00-45a7-b0a7-3ec05f8cae10"
         },
         "name": {
           "type": "string",
-          "description": "Available only on Enterprise edition"
+          "description": "Available only on Enterprise edition",
+          "example": "web proof template"
         }
       }
     },
@@ -1927,29 +1934,36 @@
       "properties": {
         "id": {
           "type": "string",
-          "readOnly": true
+          "readOnly": true,
+          "example": "937a9fc3-db38-484f-ad99-e119ee9292e3"
         },
         "contact": {
           "$ref": "#/definitions/Contact"
         },
         "email": {
-          "type": "string"
+          "type": "string",
+          "example": "name@domain.com"
         },
         "view": {
           "type": "boolean",
-          "description": "Always true"
+          "description": "Always true",
+          "default": true,
+          "example": true
         },
         "comment": {
           "type": "boolean",
-          "default": true
+          "default": true,
+          "example": true
         },
         "decision": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "manage": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "notification": {
           "enum": [
@@ -1962,14 +1976,17 @@
             "disabled"
           ],
           "type": "string",
-          "default": "all_activity"
+          "default": "all_activity",
+          "example": "final_decision"
         },
         "progress": {
           "$ref": "#/definitions/Progress"
         },
         "proof_url": {
           "type": "string",
-          "readOnly": true
+          "readOnly": true,
+          "description": "Visible only to admin and proof owner",
+          "example": "https://qaekuent1.folderflow.com/proof/o0b7cumavaqo7579omech1gr2c"
         },
         "decision_status": {
           "enum": [
@@ -1980,15 +1997,18 @@
             "not_relevant"
           ],
           "type": "string",
-          "readOnly": true
+          "readOnly": true,
+          "example": null
         },
         "comments": {
           "type": "integer",
-          "readOnly": true
+          "readOnly": true,
+          "example": 3
         },
         "replies": {
           "type": "integer",
-          "readOnly": true
+          "readOnly": true,
+          "example": 2
         }
       }
     },
@@ -1997,19 +2017,23 @@
       "properties": {
         "notified": {
           "type": "boolean",
-          "readOnly": true
+          "readOnly": true,
+          "example": true
         },
         "opened": {
           "type": "boolean",
-          "readOnly": true
+          "readOnly": true,
+          "example": true
         },
         "commented": {
           "type": "boolean",
-          "readOnly": true
+          "readOnly": true,
+          "example": true
         },
         "completed": {
           "type": "boolean",
-          "readOnly": true
+          "readOnly": true,
+          "example": false
         }
       }
     },
@@ -2020,21 +2044,30 @@
         "properties": {
           "id": {
             "type": "string",
-            "readOnly": true
+            "readOnly": true,
+            "example": "742b1b73-c40f-46d7-93a8-0419a3bab7d0"
           },
           "type": {
+            "enum": [
+              "file",
+              "web-static",
+              "web-interactive"
+            ],
             "type": "string",
-            "example": "file, web-static, web-interactive",
+            "example": "web-static",
             "readOnly": true
           },
           "name": {
             "type": "string",
             "description": "File name",
-            "readOnly": true
+            "readOnly": true,
+            "example": "https://google/com"
           },
           "size": {
             "type": "integer",
-            "readOnly": true
+            "nullable": "true",
+            "readOnly": true,
+            "example": null
           }
         }
       }
@@ -2068,13 +2101,16 @@
           }
         },
         "count": {
-          "type": "integer"
+          "type": "integer",
+          "example": 50
         },
         "page": {
-          "type": "integer"
+          "type": "integer",
+          "example": 3
         },
         "has_more": {
-          "type": "boolean"
+          "type": "boolean",
+          "example": true
         }
       }
     },
@@ -2084,7 +2120,8 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "example": "0d446679-7beb-4883-86a8-5da8db72980b"
           }
         }
       }
@@ -2098,7 +2135,8 @@
             "$ref": "#/definitions/WorkflowTemplate"
           },
           "id": {
-            "type": "string"
+            "type": "string",
+            "example": "0d446679-7beb-4883-86a8-5da8db72980b"
           }
         }
       }
@@ -2107,31 +2145,39 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "example": "8c265dc2-654d-4f10-99d6-b3e82417da70"
         },
         "parent_comment_id": {
-          "type": "string"
+          "type": "string",
+          "example": null
         },
         "proof_id": {
-          "type": "string"
+          "type": "string",
+          "example": "43d6beaa-7e00-45a7-b0a7-3ec05f8cae10"
         },
         "comment": {
-          "type": "string"
+          "type": "string",
+          "example": "Make red line 10px"
         },
         "sequence": {
-          "type": "integer"
+          "type": "integer",
+          "example": 3
         },
         "created_at": {
-          "type": "string"
+          "type": "string",
+          "example": "2018-06-12T21:05:26.256Z"
         },
         "reviewer": {
           "type": "object",
           "properties": {
             "reviewer_id": {
-              "type": "string"
+              "type": "string",
+              "example": "ed95536b-09f6-4512-a875-bc9ed836ba46"
             },
             "email": {
-              "type": "string"
+              "type": "string",
+              "example": "name@domain.com"
             }
           }
         },
@@ -2142,10 +2188,12 @@
           "type": "object",
           "properties": {
             "reviewer_id": {
-              "type": "string"
+              "type": "string",
+              "example": "47e44668-165a-458d-8b68-2b3d727894f9"
             },
             "email": {
-              "type": "string"
+              "type": "string",
+              "example": "designer@domain.com"
             }
           }
         },
@@ -2161,19 +2209,23 @@
             "type": "object",
             "properties": {
               "file_name": {
-                "type": "string"
+                "type": "string",
+                "example": "somejpg.jpg"
               },
               "download_path": {
-                "type": "string"
+                "type": "string",
+                "example": "https://domain-ziflow.aws.com/5rk3bk900e7jm8tmqriogll3jl/somejpg.jpg"
               }
             }
           }
         },
         "deleted": {
-          "type": "boolean"
+          "type": "boolean",
+          "example": false
         },
         "private": {
-          "type": "boolean"
+          "type": "boolean",
+          "example": false
         },
         "markers": {
           "type": "array",
@@ -2196,7 +2248,8 @@
         },
         "color": {
           "type": "string",
-          "description": "Color in HEX format "
+          "description": "Color in HEX format ",
+          "example": "#ADD8E6"
         },
         "start_point": {
           "$ref": "#/definitions/Coordinates"
@@ -2210,21 +2263,27 @@
       "type": "object",
       "properties": {
         "x": {
-          "type": "integer"
+          "type": "integer",
+          "example": 154
         },
         "y": {
-          "type": "integer"
+          "type": "integer",
+          "example": 238
         }
       }
     },
     "Location": {
       "type": "object",
+      "description": "For static proof provide page number, for audio and video - start time",
       "properties": {
         "page": {
-          "type": "integer"
+          "type": "integer",
+          "example": 3
         },
         "start_time": {
-          "type": "string"
+          "type": "string",
+          "description": "Time in format HH:mm:ss.SSS",
+          "example": "00:02:51.258"
         }
       }
     },
@@ -2242,22 +2301,27 @@
       ],
       "properties": {
         "parent_comment_id": {
-          "type": "string"
+          "type": "string",
+          "example": null
         },
         "proof_id": {
-          "type": "string"
+          "type": "string",
+          "example": "ee671e68-e7cb-4fa8-a9fc-9c486bfcad1c"
         },
         "comment": {
-          "type": "string"
+          "type": "string",
+          "example": "We should change background color for brighter one"
         },
         "reviewer": {
           "type": "object",
           "properties": {
             "reviewer_id": {
-              "type": "string"
+              "type": "string",
+              "example": "70f24795-0bc3-4404-b2bf-1c735a808696"
             },
             "email": {
-              "type": "string"
+              "type": "string",
+              "example": "user@domain.com"
             }
           }
         },
