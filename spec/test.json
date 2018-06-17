@@ -707,7 +707,9 @@
     }
   },
   "securityDefinitions": {
-    "x-summary": "authorization summary",
+    "tags": [
+      "authorization"
+    ],
     "apiKey": {
       "type": "apiKey",
       "name": "header apikey",
@@ -1967,6 +1969,10 @@
     {
       "name": "webhooks",
       "description": "Webhooks allows you to subscribe to changes and be notified of these changes as and when they occur. \n Webhooks are basically an easy way to receive notification of changes (Events) via an HTTP POST instead of polling for them. For services accessible via HTTP this is vastly more convenient and efficient. \n \n Ziflow currently sends one Event object per POST. We will later on extend this and send arrays of Event objects per POST which should be handled by the target. "
+    },
+    {
+      "name": "authorization",
+      "description": "authorization description"
     }
   ]
 }
