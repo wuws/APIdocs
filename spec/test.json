@@ -90,7 +90,7 @@
             }
           },
           "201": {
-            "description": "Proof created from workflow tempalte",
+            "description": "Proof created from workflow template",
             "schema": {
               "$ref": "#/definitions/ProofFromTemplate"
             }
@@ -876,7 +876,7 @@
                     },
                     "decision_event":{
                       "type": "object",
-                      "propertied":{
+                      "properties":{
                         "reviewer_id":{
                           "type": "string"
                         }
@@ -1362,6 +1362,7 @@
       },
       "stages": {
         "type": "array",
+        "required": true,
         "items": {
           "$ref": "#/definitions/PostStage"
         }
