@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": " ### Overview \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. API calls to Ziflow should be made to the https://api.ziflow.io base domain.\n  The API accepts JSON or form-encoded content in requests and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n \n ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page - you can access this page by clicking on your avatar in the top right when logged in to the application.",
+    "description": " ### Overview \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. API calls to Ziflow should be made to the https://api.ziflow.io base domain.\n  The API accepts JSON or form-encoded content in requests and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n \n #Authorization \n ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page - you can access this page by clicking on your avatar in the top right when logged in to the application.",
     "version": "1.0.0",
     "title": "Welcome To The Ziflow API"
   },
@@ -723,7 +723,7 @@
             "Query API key parameter": []
           }
         ],
-        "x-code-samples":{
+        "x-code-samples": {
           "lang": "JSON"
         }
       }
@@ -787,7 +787,7 @@
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema":{
+            "schema": {
               "$ref": "#/definitions/WebhookEvent"
             }
           }
@@ -825,70 +825,73 @@
     }
   },
   "definitions": {
-    "WebhookEvent":{
-      "type":"array",
-      "items":{
+    "WebhookEvent": {
+      "type": "array",
+      "items": {
         "type": "object",
-        "properties":{
-          "events":{
+        "properties": {
+          "events": {
             "type": "array",
-            "items":{
+            "items": {
               "type": "object",
-              "properties":{
-                "event_id":{
+              "properties": {
+                "event_id": {
                   "type": "string"
                 },
-                "webhook_id":{
+                "webhook_id": {
                   "type": "string"
                 },
-                "contact":{
+                "contact": {
                   "$ref": "#/definitions/Contact"
                 },
-                "event_type":{
+                "event_type": {
                   "type": "string"
                 },
-                "proof_event":{
+                "proof_event": {
                   "type": "object",
-                  "properties":{
-                    "proof_id":{
-                      "type":"string"
-                    },
-                    "version_previous_id":{
+                  "properties": {
+                    "proof_id": {
                       "type": "string"
                     },
-                    "action":{
+                    "version_previous_id": {
                       "type": "string"
                     },
-                    "comment_event":{
+                    "action": {
+                      "type": "string"
+                    },
+                    "comment_event": {
                       "type": "object",
-                      "properties":{
-                        "comment_id":{
-                          "type":"string"
-                        },
-                        "parent_id":{
+                      "properties": {
+                        "comment_id": {
                           "type": "string"
                         },
-                        "action":{
-                          "enum":["created", "changed"],
+                        "parent_id": {
+                          "type": "string"
+                        },
+                        "action": {
+                          "enum": [
+                            "created",
+                            "changed"
+                          ],
                           "type": "string"
                         }
                       }
                     },
-                    "decision_event":{
+                    "decision_event": {
                       "type": "object",
-                      "properties":{
-                        "reviewer_id":{
+                      "properties": {
+                        "reviewer_id": {
                           "type": "string"
                         }
                       }
                     },
-                    "created_at":{
+                    "created_at": {
                       "type": "string"
                     },
-                    "attempt_number":{
+                    "attempt_number": {
                       "type": "integer"
                     },
-                    "attempt_at":{
+                    "attempt_at": {
                       "type": "string"
                     }
                   }
@@ -1331,6 +1334,10 @@
     },
     "PostProof": {
       "type": "object",
+      "required": [
+        "input",
+        "stages"
+      ],
       "properties": {
         "version_previous_id": {
           "type": "string",
@@ -1348,44 +1355,44 @@
           "items": {
             "$ref": "#/definitions/File"
           }
+        },
+        "combine": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true the input sources are combined into one proof in the order passed through. The parameter is only available for the Business and Enterprise edition. For starter edtiton forced to false",
+          "required": false
+        },
+        "stages": {
+          "type": "array",
+          "required": true,
+          "items": {
+            "$ref": "#/definitions/PostStage"
+          }
+        },
+        "lock_on_decisions": {
+          "type": "boolean",
+          "default": false
+        },
+        "allow_source_download": {
+          "type": "boolean",
+          "default": false
+        },
+        "secure_proofing": {
+          "type": "boolean",
+          "default": false
+        },
+        "require_sign_in": {
+          "type": "boolean",
+          "default": false
+        },
+        "suppress_all_emails": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
+        },
+        "workflow_template": {
+          "$ref": "#/definitions/WorkflowTemplate"
         }
-      },
-      "combine": {
-        "type": "boolean",
-        "default": false,
-        "description": "If true the input sources are combined into one proof in the order passed through. The parameter is only available for the Business and Enterprise edition. For starter edtiton forced to false",
-        "required": false
-      },
-      "stages": {
-        "type": "array",
-        "required": true,
-        "items": {
-          "$ref": "#/definitions/PostStage"
-        }
-      },
-      "lock_on_decisions": {
-        "type": "boolean",
-        "default": false
-      },
-      "allow_source_download": {
-        "type": "boolean",
-        "default": false
-      },
-      "secure_proofing": {
-        "type": "boolean",
-        "default": false
-      },
-      "require_sign_in": {
-        "type": "boolean",
-        "default": false
-      },
-      "suppress_all_emails": {
-        "type": "boolean",
-        "default": false,
-        "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
-      },
-      "workflow_template": {
-        "$ref": "#/definitions/WorkflowTemplate"
       }
     },
     "PostStage": {
