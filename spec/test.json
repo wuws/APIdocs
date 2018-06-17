@@ -707,15 +707,22 @@
     }
   },
   "securityDefinitions": {
-    "summary": "authorization summary",
+    "x-description": "authorization summary",
     "apiKey": {
       "type": "apiKey",
       "name": "header apikey",
-      "in": "header"
+      "in": "header",
+      "description": "Provide api key as header parameter named 'apikey'."
     },
     "basic_http": {
       "type": "basic",
       "description": "Provide apiKey as Username and leave password empty"
+    },
+    "query_apiKey":{
+      "type": "apiKey",
+      "name": "query_apiKey",
+      "in": "query",
+      "description": "Provide api key as query parameter"
     },
     "adminApiKey": {
       "type": "apiKey",
