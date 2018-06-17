@@ -1331,10 +1331,6 @@
     },
     "PostProof": {
       "type": "object",
-      "required": [
-        "input",
-        "stages"
-      ],
       "properties": {
         "version_previous_id": {
           "type": "string",
