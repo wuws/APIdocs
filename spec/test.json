@@ -1150,6 +1150,8 @@
     },
     "PostStageTrigger": {
       "type": "object",
+      "x-nullable": true,
+      "description": "Available only on Enterprise edition",
       "properties": {
         "trigger_id": {
           "type": "string",
@@ -1186,6 +1188,8 @@
     },
     "PostLock": {
       "type": "object",
+      "x-nullable": true,
+      "description": "Available only on Enterprise edition",
       "properties": {
         "type": {
           "enum": [
@@ -1334,7 +1338,7 @@
     },
     "WorkflowTemplate": {
       "type": "object",
-      "nullable": true,
+      "x-nullable": true,
       "properties": {
         "id": {
           "type": "string",
