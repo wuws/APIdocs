@@ -1680,7 +1680,7 @@
           "type": "string",
           "example": "in_progress",
           "description": "The overall status of the proof",
-          "readOnly": true,
+          "readOnly": true
         },
         "locked": {
           "type": "boolean",
