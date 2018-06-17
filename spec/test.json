@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": " ## Welcome To The Ziflow API \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. \n  The API accepts JSON or form-encoded content in requests and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n  ### Base domain \n API calls to Ziflow should be made to the ## https://api.ziflow.io/v1 . \n  ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page - you can access this page by clicking on your avatar in the top right when logged in to the application.",
+    "description": " ## Welcome To The Ziflow API \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. \n  The API accepts JSON or form-encoded content in requests and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n  ### Base domain \n API calls to Ziflow should be made to the https://api.ziflow.io/v1 . \n  ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page - you can access this page by clicking on your avatar in the top right when logged in to the application.",
     "version": "",
     "title": "Ziflow API"
   },
@@ -187,7 +187,7 @@
           "proofs"
         ],
         "summary": "Update an existing proof",
-        "description": "",
+        "description": "A specific, existing proof can be updated by making a PUT request on the URL for that proof. Only the fields provided in the data block will be updated; any unspecified fields will remain unchanged. \n ### Helpful tips: \n * It is best to specify only those fields you wish to change. \n  * When working with Stages and Members you are able to pass in only the id, which means we'll leave that object unchanged. This is useful when adding or deleting Stages or Members on the proof. \n Returns the complete updated proof record.",
         "consumes": [
           "application/json"
         ],
@@ -836,63 +836,90 @@
               "type": "object",
               "properties": {
                 "event_id": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "48219ea8-5b74-4c50-9dc2-11b01d218fbd"
                 },
                 "webhook_id": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "d8bb19a0-198c-4ec8-b569-c4166bf37ef2"
                 },
                 "contact": {
                   "$ref": "#/definitions/Contact"
                 },
                 "event_type": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "proof"
                 },
                 "proof_event": {
                   "type": "object",
                   "properties": {
                     "proof_id": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "35b26dd9-4e8c-4fc5-a9ec-c68c8fb2e086"
                     },
                     "version_previous_id": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "79b26dd9-6e8c-4fc5-bg9e-c68c8fb4g254"
                     },
                     "action": {
-                      "type": "string"
+                      "enum": [
+                        "created",
+                        "updated",
+                        "processed",
+                        "failed",
+                        "comment",
+                        "decision",
+                        "status",
+                        "deleted"
+                      ],
+                      "type": "string",
+                      "example": "comment"
                     },
                     "comment_event": {
                       "type": "object",
+                      "default": null,
+                      "x-nullable": true,
                       "properties": {
                         "comment_id": {
-                          "type": "string"
+                          "type": "string",
+                          "example": "e92a3091-d5d0-4d89-89bf-3b93a468bf97"
                         },
                         "parent_id": {
-                          "type": "string"
+                          "type": "string",
+                          "example": null
                         },
                         "action": {
                           "enum": [
                             "created",
                             "changed"
                           ],
-                          "type": "string"
+                          "type": "string",
+                          "example": "created"
                         }
                       }
                     },
                     "decision_event": {
                       "type": "object",
+                      "x-nullable": true,
+                      "default": null,
                       "properties": {
                         "reviewer_id": {
-                          "type": "string"
+                          "type": "string",
+                          "example": "af1f6f4f-8b71-4351-b9be-4007aad62266"
                         }
                       }
                     },
                     "created_at": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "2018-06-13T04:50:35.521Z"
                     },
                     "attempt_number": {
-                      "type": "integer"
+                      "type": "integer",
+                      "example": 1
                     },
                     "attempt_at": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "2018-06-13T04:50:35.664Z"
                     }
                   }
                 }
@@ -906,22 +933,27 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "example": "499871d0-d05b-446e-a703-38d767adaae4"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "example": "Subscription name"
         },
         "target": {
-          "type": "string"
+          "type": "string",
+          "example": "https://yourpage.com"
         },
         "active": {
-          "type": "boolean"
+          "type": "boolean",
+          "example": true
         },
         "subscription_types": {
           "$ref": "#/definitions/SubTypes"
         },
         "created_at": {
-          "type": "string"
+          "type": "string",
+          "example": "2018-05-13T08:43:37.142Z"
         }
       }
     },
@@ -932,28 +964,36 @@
           "type": "object",
           "properties": {
             "all": {
-              "type": "boolean"
+              "type": "boolean",
+              "example": true
             },
             "created": {
-              "type": "boolean"
+              "type": "boolean",
+              "example": true
             },
             "processed": {
-              "type": "boolean"
+              "type": "boolean",
+              "example": true
             },
             "changed": {
-              "type": "boolean"
+              "type": "boolean",
+              "example": true
             },
             "deleted": {
-              "type": "boolean"
+              "type": "boolean",
+              "example": true
             },
             "status_change": {
-              "type": "boolean"
+              "type": "boolean",
+              "example": true
             },
             "comment": {
-              "type": "boolean"
+              "type": "boolean",
+              "example": true
             },
             "decision": {
-              "type": "boolean"
+              "type": "boolean",
+              "example": true
             }
           }
         }
@@ -968,14 +1008,17 @@
       ],
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "example": "Subscription name"
         },
         "target": {
-          "type": "string"
+          "type": "string",
+          "example": "https://yourpage.com"
         },
         "active": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "subscription_types": {
           "$ref": "#/definitions/SubTypes"
@@ -987,7 +1030,8 @@
       "description": "",
       "properties": {
         "reviewer_id": {
-          "type": "string"
+          "type": "string",
+          "example": "539b1f11-cf33-493f-9195-20ba22fe3d1e"
         },
         "decision": {
           "enum": [
@@ -998,11 +1042,13 @@
             "not_relevant"
           ],
           "type": "string",
-          "required": true
+          "required": true,
+          "example": "changes_required"
         },
         "completed": {
           "type": "boolean",
-          "required": true
+          "required": true,
+          "example": true
         }
       }
     },
@@ -1010,19 +1056,24 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "example": "ec2b4aee-42b6-42f8-92cd-264d1c9d4d0c"
         },
         "first_name": {
-          "type": "string"
+          "type": "string",
+          "example": "User"
         },
         "last_name": {
-          "type": "string"
+          "type": "string",
+          "example": "Name"
         },
         "account_owner": {
-          "type": "boolean"
+          "type": "boolean",
+          "example": false
         },
         "email": {
-          "type": "string"
+          "type": "string",
+          "example": "name@domain.com"
         },
         "roles": {
           "type": "array",
@@ -1033,23 +1084,29 @@
               "billing",
               "user"
             ],
-            "type": "string"
+            "type": "string",
+            "example": "manager"
           }
         },
         "phone": {
-          "type": "string"
+          "type": "string",
+          "example": "+4412345678911"
         },
         "timezone": {
-          "type": "string"
+          "type": "string",
+          "example": "Europe/London"
         },
         "company": {
-          "type": "string"
+          "type": "string",
+          "example": "Awesome Company"
         },
         "verified": {
-          "type": "boolean"
+          "type": "boolean",
+          "example": true
         },
         "active": {
-          "type": "boolean"
+          "type": "boolean",
+          "example": true
         },
         "group": {
           "type": "array",
@@ -1136,7 +1193,7 @@
         },
         "timezone": {
           "type": "string",
-          "example": "'Europe/London'",
+          "example": "Europe/London",
           "readOnly": true
         }
       }
@@ -1152,15 +1209,18 @@
       "properties": {
         "tenant_id": {
           "type": "string",
-          "readOnly": true
+          "readOnly": true,
+          "example": "ab6d3631-b96b-49da-92c4-6b0af7fc1b48"
         },
         "subdomain": {
           "type": "string",
-          "readOnly": true
+          "readOnly": true,
+          "example": "your-subdomain"
         },
         "company_name": {
           "type": "string",
-          "readOnly": true
+          "readOnly": true,
+          "example": "Awesome Company"
         }
       }
     },
@@ -1173,11 +1233,13 @@
           "example": "Proof Name"
         },
         "owner_email": {
-          "type": "string"
+          "type": "string",
+          "example": "owner.mail@domain.com"
         },
         "locked": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": false
         },
         "stages": {
           "type": "array",
@@ -1187,37 +1249,53 @@
         },
         "lock_on_decisions": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "allow_source_download": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "secure_proofing": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "require_sign_in": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "suppress_all_emails": {
           "type": "boolean",
           "default": false,
+          "example": false,
           "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
         }
       }
     },
     "PutStage": {
       "type": "object",
+      "required": [
+        "id",
+        "members"
+      ],
       "properties": {
+        "id": {
+          "type": "string",
+          "description": "Provide id of every stage you wish to change or leave unchanged - missing stage id will be deleted.",
+          "example": "6fb38b0a-1bbc-40ee-b1d1-656e2c3070f7"
+        },
         "name": {
           "type": "string",
-          "default": "Stage 1"
+          "default": "Stage 1",
+          "example": "New Stage name"
         },
         "only_one_decision": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": false
         },
         "members": {
           "$ref": "#/definitions/PutMember"
@@ -1225,12 +1303,14 @@
         "custom_email_subject": {
           "type": "string",
           "default": "null",
-          "nullable": true
+          "nullable": true,
+          "example": "Updated custom subject"
         },
         "custom_email_message": {
           "type": "string",
           "default": "null",
-          "nullable": true
+          "nullable": true,
+          "example": "Updated custom message"
         },
         "lock": {
           "$ref": "#/definitions/PutLock"
@@ -1245,26 +1325,32 @@
       "properties": {
         "id": {
           "type": "string",
-          "readOnly": true
+          "description": "Provide id of every stage you wish to change or leave unchanged - missing stage id will be deleted.",
+          "example": "6fb38b0a-1bbc-40ee-b1d1-656e2c3070f7"
         },
         "email": {
-          "type": "string"
+          "type": "string",
+          "example": "new.reviewer@domain.com"
         },
         "view": {
           "type": "boolean",
-          "description": "Always true"
+          "description": "Always true",
+          "example": true
         },
         "comment": {
           "type": "boolean",
-          "default": true
+          "default": true,
+          "example": true
         },
         "decision": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "manage": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": false
         },
         "notification": {
           "enum": [
@@ -1277,7 +1363,8 @@
             "disabled"
           ],
           "type": "string",
-          "default": "all_activity"
+          "default": "all_activity",
+          "example": "decisions"
         }
       }
     },
@@ -1286,7 +1373,8 @@
       "properties": {
         "trigger_id": {
           "type": "string",
-          "readOnly": true
+          "readOnly": true,
+          "example": "1d2a933b-3cb1-4028-a91b-0c8918b15582"
         },
         "trigger": {
           "$ref": "#/definitions/PutTrigger"
@@ -1298,6 +1386,7 @@
     },
     "PutTrigger": {
       "type": "object",
+      "x-nullable": true,
       "properties": {
         "type": {
           "enum": [
@@ -1308,15 +1397,22 @@
             "on_approved_or_approvedwithchanges",
             "deadline_reached"
           ],
-          "type": "string"
+          "type": "string",
+          "example": "on_approved",
+          "description": " Available only on Enterprise edition"
         },
         "parent_stage_id": {
-          "type": "string"
+          "type": "string",
+          "nullable": true,
+          "example": "ea0d6aec-1929-4e1a-8a10-6531ac659d3f",
+          "description": " Available only on Enterprise edition"
         }
       }
     },
     "PutLock": {
       "type": "object",
+      "x-nullable": true,
+      "description": " Available only on Enterprise edition",
       "properties": {
         "type": {
           "enum": [
@@ -1325,10 +1421,14 @@
             "all_dependent_stages_started",
             "next_stage_starts"
           ],
-          "type": "string"
+          "type": "string",
+          "example": "all_dependent_stages_started"
         },
         "next_stage_id": {
-          "type": "string"
+          "type": "string",
+          "nullable": true,
+          "default": null,
+          "example": null
         }
       }
     },
@@ -1723,11 +1823,14 @@
       "type": "object",
       "properties": {
         "days": {
-          "type": "integer"
+          "type": "integer",
+          "nullable": true,
+          "example": 5
         },
         "time": {
           "type": "string",
           "example": "09:00:00.000Z",
+          "nullable": true,
           "description": "Time in UTC, required only if days=0 and has to be at least 1 hour ahead from stage start"
         }
       }
@@ -2124,8 +2227,8 @@
     }
   },
   "externalDocs": {
-    "description": "",
-    "url": "http://swagger.io"
+    "description": "Release notes",
+    "url": "https://www.ziflow.com/developers/api-reference/release-notes"
   },
   "tags": [
     {
