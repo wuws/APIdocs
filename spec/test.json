@@ -707,7 +707,7 @@
     }
   },
   "securityDefinitions": {
-    "x-description": "authorization summary",
+    "x-summary": "authorization summary",
     "apiKey": {
       "type": "apiKey",
       "name": "header apikey",
