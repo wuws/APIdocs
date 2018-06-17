@@ -762,7 +762,7 @@
         ]
       }
     },
-    "/target/{target}/": {
+    "/target/": {
       "get": {
         "tags": [
           "webhooks"
@@ -771,15 +771,6 @@
         "description": " Description of webhook event structure. \n \n Fake request to show webhook event structure.",
         "produces": [
           "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "target",
-            "in": "path",
-            "description": "Subscription id",
-            "required": true,
-            "type": "string"
-          }
         ],
         "responses": {
           "200": {
