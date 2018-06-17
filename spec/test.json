@@ -17,8 +17,7 @@
           "proofs"
         ],
         "summary": "Get proof list",
-        "description": "Returns array of proof object",
-        "operationId": "addPet",
+        "description": "Returns a paginated list of proofs with a maximum of 100 proofs. It returns the latest version the user making the API call can see. A list is sorted from the newest to the oldest proofs. \n Returns array of proof object",
         "produces": [
           "application/json"
         ],
@@ -64,7 +63,6 @@
         ],
         "summary": "Create new proof",
         "description": "",
-        "operationId": "updateProof",
         "consumes": [
           "application/json"
         ],
@@ -131,7 +129,7 @@
         "responses": {
           "200": {
             "schema": {
-              "$ref": "#/definitions/GetProof"
+              "$ref": "#/definitions/Proof"
             },
             "description": "Proof details"
           }
@@ -216,7 +214,7 @@
           "200": {
             "description": "Updated proof body",
             "schema": {
-              "$ref": "#/definitions/GetProof"
+              "$ref": "#/definitions/Proof"
             }
           }
         },
@@ -443,8 +441,7 @@
           "people"
         ],
         "summary": "Delete user",
-        "description": "Method used for deleting users from the account. Only a user with admin rights can delete other users. Returns empty data record",
-        "operationId": "deleteUser",
+        "description": "A specific, existing proof can be deleted by making a DELETE request on the URL for that proof. \n Returns empty data record",
         "parameters": [
           {
             "name": "id",
@@ -768,7 +765,7 @@
     "/{target}/": {
       "get": {
         "tags": [
-          "webhooks"
+          "Webhook events"
         ],
         "summary": "Webhook Event structure",
         "description": " ## Request to show webhook event structure.",
@@ -1189,7 +1186,8 @@
         },
         "blocked": {
           "type": "boolean",
-          "readOnly": true
+          "readOnly": true,
+          "example": false
         },
         "timezone": {
           "type": "string",
@@ -1460,7 +1458,8 @@
           "type": "boolean",
           "default": false,
           "description": "If true the input sources are combined into one proof in the order passed through. The parameter is only available for the Business and Enterprise edition. For starter edtiton forced to false",
-          "required": false
+          "required": false,
+          "example": false
         },
         "stages": {
           "type": "array",
@@ -1471,24 +1470,29 @@
         },
         "lock_on_decisions": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "allow_source_download": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "secure_proofing": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "require_sign_in": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "suppress_all_emails": {
           "type": "boolean",
           "default": false,
-          "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
+          "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application.",
+          "example": false
         },
         "workflow_template": {
           "$ref": "#/definitions/WorkflowTemplate"
@@ -1503,22 +1507,26 @@
       "properties": {
         "name": {
           "type": "string",
-          "default": "Stage 1"
+          "default": "Stage 1",
+          "example": "Stage name"
         },
         "only_one_decision": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "members": {
           "$ref": "#/definitions/PostMember"
         },
         "custom_email_subject": {
           "type": "string",
-          "default": "null"
+          "default": null,
+          "example": "Custom email subject"
         },
         "custom_email_message": {
           "type": "string",
-          "default": "null"
+          "default": null,
+          "example": "Custom email message"
         },
         "lock": {
           "$ref": "#/definitions/PostLock"
@@ -1536,23 +1544,28 @@
       "properties": {
         "email": {
           "type": "string",
-          "required": true
+          "required": true,
+          "example": "name@domain.com"
         },
         "view": {
           "type": "boolean",
-          "description": "Always true"
+          "description": "Always true",
+          "example": true
         },
         "comment": {
           "type": "boolean",
-          "default": true
+          "default": true,
+          "example": true
         },
         "decision": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "manage": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": false
         },
         "notification": {
           "enum": [
@@ -1565,7 +1578,8 @@
             "disabled"
           ],
           "type": "string",
-          "default": "all_activity"
+          "default": "all_activity",
+          "example": "disabled"
         }
       }
     },
@@ -1576,7 +1590,8 @@
       "properties": {
         "trigger_id": {
           "type": "string",
-          "readOnly": true
+          "readOnly": true,
+          "example":"98ece0e3-7030-42be-8d45-2700109e1577"
         },
         "trigger": {
           "$ref": "#/definitions/PostTrigger"
@@ -1599,11 +1614,13 @@
             "deadline_reached"
           ],
           "type": "string",
-          "default": null
+          "default": null,
+          "example": "om_approved"
         },
         "parent_stage_name": {
           "type": "string",
-          "default": null
+          "default": null,
+          "example": "Stage 2"
         }
       }
     },
@@ -1620,15 +1637,17 @@
             "next_stage_starts"
           ],
           "type": "string",
-          "default": null
+          "default": null,
+          "example": "next_stage_starts"
         },
         "next_stage_name": {
           "type": "string",
-          "default": null
+          "default": null,
+          "example": "Next stage"
         }
       }
     },
-    "GetProof": {
+    "Proof": {
       "type": "object",
       "properties": {
         "id": {
@@ -1647,7 +1666,8 @@
           "$ref": "#/definitions/Contact"
         },
         "version": {
-          "type": "integer"
+          "type": "integer",
+          "example": 2
         },
         "versions": {
           "$ref": "#/definitions/Versions"
@@ -1656,14 +1676,16 @@
           "$ref": "#/definitions/SourceFiles"
         },
         "status": {
+          "enum": ["uploading", "in_progress", "completed", "failed"],
           "type": "string",
-          "example": "‘uploading’ / ‘in_progress’ / ‘completed’ / ‘failed’",
+          "example": "in_progress",
           "description": "The overall status of the proof",
-          "readOnly": true
+          "readOnly": true,
         },
         "locked": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": false
         },
         "decision_status": {
           "enum": [
@@ -1676,12 +1698,14 @@
           "type": "string",
           "default": "null",
           "description": "The overall proof status calculated from all the stages",
-          "readOnly": true
+          "readOnly": true,
+          "example": null
         },
         "public_link": {
           "type": "string",
           "description": "Either null or 'https://ziflow.ziflow.io/proof/84n0ntlb1aapkdmchjgkcn9b8j'",
-          "readOnly": true
+          "readOnly": true,
+          "example": "https://ziflow.ziflow.io/proof/84n0ntlb1aapkdmchjgkcn9b8j"
         },
         "stages": {
           "type": "array",
@@ -1691,19 +1715,23 @@
         },
         "lock_on_decisions": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "allow_source_download": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "secure_proofing": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "require_sign_in": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "download_link": {
           "type": "string",
@@ -1713,6 +1741,7 @@
         "suppress_all_emails": {
           "type": "boolean",
           "default": false,
+          "example": false,
           "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
         },
         "workflow_template": {
@@ -1725,7 +1754,8 @@
       "properties": {
         "source": {
           "type": "string",
-          "description": "URL to proof file, can be parametrized"
+          "description": "URL to proof file, can be parametrized",
+          "example": "http://google.com"
         },
         "type": {
           "enum": [
@@ -1733,13 +1763,15 @@
             "web-static",
             "web-interactive"
           ],
-          "type": "string"
+          "type": "string",
+          "example": "web-static"
         }
       }
     },
     "WorkflowTemplate": {
       "type": "object",
       "x-nullable": true,
+      "example": null,
       "properties": {
         "id": {
           "type": "string",
@@ -1756,21 +1788,25 @@
       "properties": {
         "id": {
           "type": "string",
-          "readOnly": true
+          "readOnly": true,
+          "example": "98ece0e3-7030-42be-8d45-2700109e1577"
         },
         "name": {
           "type": "string",
-          "default": "Stage 1"
+          "default": "Stage 1",
+          "example": "Stage 1"
         },
         "deadline": {
           "type": "string",
           "description": "Deadline date and time calculated when stage starts i.e. '2012-02-22T02:00:00.000Z'",
           "default": "null",
-          "readOnly": true
+          "readOnly": true,
+          "example": "2018-06-07T09:24:43.919Z"
         },
         "only_one_decision": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "example": true
         },
         "status": {
           "enum": [
@@ -1783,18 +1819,21 @@
           "type": "string",
           "default": "null",
           "description": "The overall proof status calculated from all the reviewer's decisions",
-          "readOnly": true
+          "readOnly": true,
+          "example": null
         },
         "members": {
           "$ref": "#/definitions/Member"
         },
         "custom_email_subject": {
           "type": "string",
-          "default": "null"
+          "default": null,
+          "example": "Email custom subject"
         },
         "custom_email_message": {
           "type": "string",
-          "default": "null"
+          "default": null,
+          "example": "Email custom message"
         },
         "lock": {
           "$ref": "#/definitions/Lock"
@@ -1809,7 +1848,8 @@
       "properties": {
         "trigger_id": {
           "type": "string",
-          "readOnly": true
+          "readOnly": true,
+          "example": "f7eb8492-b462-4259-af51-02ed1baaad12"
         },
         "trigger": {
           "$ref": "#/definitions/Trigger"
@@ -1847,18 +1887,23 @@
             "on_approved_or_approvedwithchanges",
             "deadline_reached"
           ],
-          "type": "string"
+          "type": "string",
+          "example": "immediately"
         },
         "parent_stage_id": {
-          "type": "string"
+          "type": "string",
+          "example": null
         },
         "parent_stage_name": {
-          "type": "string"
+          "type": "string",
+          "example": null
         }
       }
     },
     "Lock": {
       "type": "object",
+      "x-nullable": true,
+      "example": null,
       "properties": {
         "type": {
           "enum": [
@@ -2002,11 +2047,13 @@
         "properties": {
           "version": {
             "type": "integer",
-            "readOnly": true
+            "readOnly": true,
+            "example": 1
           },
           "version_id": {
             "type": "string",
-            "readOnly": true
+            "readOnly": true,
+            "example": "adbe0c29-819a-43ab-8f47-8dd9e71c7fd9"
           }
         }
       }
@@ -2017,7 +2064,7 @@
         "proofs": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/GetProof"
+            "$ref": "#/definitions/Proof"
           }
         },
         "count": {
