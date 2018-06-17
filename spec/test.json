@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": " ### Overview \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. API calls to Ziflow should be made to the https://api.ziflow.io base domain.\n  The API accepts JSON or form-encoded content in requests and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n  \n ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page - you can access this page by clicking on your avatar in the top right when logged in to the application.",
-    "version": "1.0.0",
-    "title": "Welcome To The Ziflow API"
+    "description": " ## Welcome To The Ziflow API \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. API calls to Ziflow should be made to the https://api.ziflow.io base domain.\n  The API accepts JSON or form-encoded content in requests and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n  \n ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page - you can access this page by clicking on your avatar in the top right when logged in to the application.",
+    "version": "",
+    "title": "Ziflow API"
   },
   "host": "api.ziflow.io",
   "basePath": "/v1",
@@ -2124,7 +2124,7 @@
     }
   },
   "externalDocs": {
-    "description": "Find out more about Swagger",
+    "description": "",
     "url": "http://swagger.io"
   },
   "tags": [
