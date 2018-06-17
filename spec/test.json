@@ -628,9 +628,86 @@
           }
         ]
       }
+    },
+    "/webhooks": {
+      "post": {
+        "tags": [
+          "webhooks"
+        ],
+        "summary": "Post webhooks configuration",
+        "description": "Creates a new subscription with a simple HTTP POST. \n Can be performed only by user with Admin rights.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Webhook configuration",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PostWebhookSubscription"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/WebhookSubscription"
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "basic_http": []
+          }
+        ]
+      }
+    },
+    "webhooks/{subscription_id": {
+      "delete": {
+        "tags": [
+          "webhooks"
+        ],
+        "summary": "Post webhooks configuration",
+        "description": "Deletes subscription with a simple HTTP POST. \n Can be performed only by user with Admin rights.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Subscription id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "basic_http": []
+          }
+        ]
+      }
     }
   },
   "securityDefinitions": {
+    "summary": "authorization summary",
     "apiKey": {
       "type": "apiKey",
       "name": "header apikey",
@@ -647,6 +724,86 @@
     }
   },
   "definitions": {
+    "WebhookSubscription": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "subscription_types": {
+          "$ref": "#/definitions/SubTypes"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      }
+    },
+    "SubTypes": {
+      "type": "object",
+      "properties": {
+        "proof": {
+          "type": "object",
+          "properties": {
+            "all": {
+              "type": "boolean"
+            },
+            "created": {
+              "type": "boolean"
+            },
+            "processed": {
+              "type": "boolean"
+            },
+            "changed": {
+              "type": "boolean"
+            },
+            "deleted": {
+              "type": "boolean"
+            },
+            "status_change": {
+              "type": "boolean"
+            },
+            "comment": {
+              "type": "boolean"
+            },
+            "decision": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "PostWebhookSubscription": {
+      "type": "object",
+      "required": [
+        "name",
+        "target",
+        "subscription_types"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean",
+          "deafult": false
+        },
+        "subscription_types": {
+          "$ref": "#/definitions/SubTypes"
+        }
+      }
+    },
     "ReviewersStatus": {
       "type": "object",
       "description": "",
@@ -1016,62 +1173,47 @@
         },
         "input": {
           "type": "array",
+          "required": true,
           "items": {
-            "type": "object",
-            "properties": {
-              "source": {
-                "type": "string",
-                "description": "URL to proof file, can be parametrized",
-                "required": true
-              },
-              "type": {
-                "enum": [
-                  "file",
-                  "web-static",
-                  "web-interactive"
-                ],
-                "type": "string",
-                "required": true
-              }
-            }
+            "$ref": "#/definitions/File"
           }
-        },
-        "combine": {
-          "type": "boolean",
-          "default": false,
-          "description": "If true the input sources are combined into one proof in the order passed through. The parameter is only available for the Business and Enterprise edition. For starter edtiton forced to false",
-          "required": false
-        },
-        "stages": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PostStage"
-          }
-        },
-        "lock_on_decisions": {
-          "type": "boolean",
-          "default": false
-        },
-        "allow_source_download": {
-          "type": "boolean",
-          "default": false
-        },
-        "secure_proofing": {
-          "type": "boolean",
-          "default": false
-        },
-        "require_sign_in": {
-          "type": "boolean",
-          "default": false
-        },
-        "suppress_all_emails": {
-          "type": "boolean",
-          "default": false,
-          "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
-        },
-        "workflow_template": {
-          "$ref": "#/definitions/WorkflowTemplate"
         }
+      },
+      "combine": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true the input sources are combined into one proof in the order passed through. The parameter is only available for the Business and Enterprise edition. For starter edtiton forced to false",
+        "required": false
+      },
+      "stages": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/PostStage"
+        }
+      },
+      "lock_on_decisions": {
+        "type": "boolean",
+        "default": false
+      },
+      "allow_source_download": {
+        "type": "boolean",
+        "default": false
+      },
+      "secure_proofing": {
+        "type": "boolean",
+        "default": false
+      },
+      "require_sign_in": {
+        "type": "boolean",
+        "default": false
+      },
+      "suppress_all_emails": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
+      },
+      "workflow_template": {
+        "$ref": "#/definitions/WorkflowTemplate"
       }
     },
     "PostStage": {
@@ -1296,26 +1438,6 @@
         },
         "workflow_template": {
           "$ref": "#/definitions/WorkflowTemplate"
-        }
-      }
-    },
-    "Input": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "source": {
-            "type": "string",
-            "description": "URL to proof file, can be parametrized"
-          },
-          "type": {
-            "enum": [
-              "file",
-              "web-static",
-              "web-interactive"
-            ],
-            "type": "string"
-          }
         }
       }
     },
@@ -1785,8 +1907,9 @@
     },
     "PostComment": {
       "type": "object",
-      "required":[
-        "comment","location"
+      "required": [
+        "comment",
+        "location"
       ],
       "properties": {
         "parent_comment_id": {
@@ -1833,6 +1956,10 @@
     {
       "name": "proofs",
       "description": "Proofs are one of the fundamental building blocks of Ziflow. \n It is important to note the distinction between how proofs are represented within the application vs the API: \n Application: only the latest version of a proof visible to a logged in the user is displayed - if a proof has 4 versions, the user would see v4 with v1 to v3 sitting “behind” this latest version. \n API: each version is its own proof object and versions are linked by use of a parent ID, thereby creating a linked list of proof objects."
+    },
+    {
+      "name": "webhooks",
+      "description": "Webhooks allows you to subscribe to changes and be notified of these changes as and when they occur. \n Webhooks are basically an easy way to receive notification of changes (Events) via an HTTP POST instead of polling for them. For services accessible via HTTP this is vastly more convenient and efficient. \n \n Ziflow currently sends one Event object per POST. We will later on extend this and send arrays of Event objects per POST which should be handled by the target. "
     }
   ]
 }
