@@ -722,10 +722,13 @@
           {
             "Query API key parameter": []
           }
-        ]
+        ],
+        "x-code-samples":{
+          "lang": "JSON"
+        }
       }
     },
-    "webhooks/{subscription_id": {
+    "/webhooks/{subscription_id}": {
       "delete": {
         "tags": [
           "webhooks"
@@ -761,6 +764,46 @@
           }
         ]
       }
+    },
+    "/{target}/": {
+      "get": {
+        "tags": [
+          "webhooks"
+        ],
+        "summary": "Webhook Event structure",
+        "description": " ## Request to show webhook event structure.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "target",
+            "in": "path",
+            "description": "Subscription id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema":{
+              "$ref": "#/definitions/WebhookEvent"
+            }
+          }
+        },
+        "security": [
+          {
+            "Header API key parameter": []
+          },
+          {
+            "Basic HTTP authentication": []
+          },
+          {
+            "Query API key parameter": []
+          }
+        ]
+      }
     }
   },
   "securityDefinitions": {
@@ -782,6 +825,80 @@
     }
   },
   "definitions": {
+    "WebhookEvent":{
+      "type":"array",
+      "items":{
+        "type": "object",
+        "properties":{
+          "events":{
+            "type": "array",
+            "items":{
+              "type": "object",
+              "properties":{
+                "event_id":{
+                  "type": "string"
+                },
+                "webhook_id":{
+                  "type": "string"
+                },
+                "contact":{
+                  "$ref": "#/definitions/Contact"
+                },
+                "event_type":{
+                  "type": "string"
+                },
+                "proof_event":{
+                  "type": "object",
+                  "properties":{
+                    "proof_id":{
+                      "type":"string"
+                    },
+                    "version_previous_id":{
+                      "type": "string"
+                    },
+                    "action":{
+                      "type": "string"
+                    },
+                    "comment_event":{
+                      "type": "object",
+                      "properties":{
+                        "comment_id":{
+                          "type":"string"
+                        },
+                        "parent_id":{
+                          "type": "string"
+                        },
+                        "action":{
+                          "enum":["created", "changed"],
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "decision_event":{
+                      "type": "object",
+                      "propertied":{
+                        "reviewer_id":{
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "created_at":{
+                      "type": "string"
+                    },
+                    "attempt_number":{
+                      "type": "integer"
+                    },
+                    "attempt_at":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "WebhookSubscription": {
       "type": "object",
       "properties": {
@@ -855,7 +972,7 @@
         },
         "active": {
           "type": "boolean",
-          "deafult": false
+          "default": false
         },
         "subscription_types": {
           "$ref": "#/definitions/SubTypes"
@@ -2018,6 +2135,11 @@
     {
       "name": "webhooks",
       "description": "Webhooks allows you to subscribe to changes and be notified of these changes as and when they occur. \n Webhooks are basically an easy way to receive notification of changes (Events) via an HTTP POST instead of polling for them. For services accessible via HTTP this is vastly more convenient and efficient. \n \n Ziflow currently sends one Event object per POST. We will later on extend this and send arrays of Event objects per POST which should be handled by the target. "
+    },
+    {
+      "name": "Webhook events",
+      "description": "Description of webhook event structure",
+      "x-traitTag": true
     }
   ]
 }
