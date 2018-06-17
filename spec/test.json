@@ -765,10 +765,10 @@
     "/target/{target}/": {
       "get": {
         "tags": [
-          "Webhook events"
+          "webhooks"
         ],
         "summary": "Webhook Event structure",
-        "description": " ## Request to show webhook event structure.",
+        "description": " Description of webhook event structure. \n \n Fake request to show webhook event structure.",
         "produces": [
           "application/json"
         ],
