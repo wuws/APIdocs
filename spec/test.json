@@ -2519,7 +2519,7 @@
     },
     {
       "name": "release notes",
-      "description": "### Release 18.5 \n \n * Included workflow properties (Lock stage, Stage trigger in GET proof object model \n * GET /proofs returns proof list \n * GET all users \n * GET user by id \n * DELETE user by id \n * GET workflow template's list - Avialable only on Enterprise edition and only for users with admin rights \n * Extend POST and GET comment with markups"
+      "description": "### Release 18.5 \n \n * Deadline setting changed - deadline can be set only in Deadline object present in Stage Trigger object, field deadline in Stage becomes read only and represents calculated deadline once Stage starts \n * Included workflow properties (Workflow template object, Lock stage, Stage Trigger in proof object model). Impact on all GET proof response's body, in POST proof body, options available to set only for Enterprise edition users \n * GET /proofs returns proof list \n * GET all users \n * GET user by id \n * DELETE user by id \n * GET workflow template's list - Avialable only on Enterprise edition and only for users with admin rights \n * POST - create proof from workflow template \n * Extend POST and GET comment with markups"
     }
   ]
 }
