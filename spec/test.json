@@ -2519,7 +2519,7 @@
     },
     {
       "name": "release notes",
-      "description": "### Release notes"
+      "description": "### Release 18.5 \n \n * Included workflow properties (Lock stage, Stage trigger in GET proof object model \n * GET /proofs returns proof list \n * GET all users \n * GET user by id \n * DELETE user by id \n * GET workflow template's list - Avialable only on Enterprise edition and only for users with admin rights \n * Extend POST and GET comment with markups"
     }
   ]
 }
