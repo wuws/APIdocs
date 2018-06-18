@@ -24,14 +24,14 @@
         "parameters": [
           {
             "name": "count",
-            "in": "header",
+            "in": "path",
             "type": "integer",
             "required": false,
             "description": "Specifies number of records to return with max=100"
           },
           {
             "name": "page",
-            "in": "header",
+            "in": "path",
             "type": "integer",
             "required": false,
             "description": "Used for pagination, starting at 1"
@@ -2454,41 +2454,40 @@
         }
       }
     },
-    "WorkflowTemplatesList":{
+    "WorkflowTemplatesList": {
       "type": "array",
-      "items":{
+      "items": {
         "type": "object",
-        "properties":{
-          "id":{
+        "properties": {
+          "id": {
             "type": "string",
-            "example":"14f19fba-6fea-4df6-b0d4-59d4827a4ac5"
+            "example": "14f19fba-6fea-4df6-b0d4-59d4827a4ac5"
           },
-          "name":{
+          "name": {
             "type": "string",
             "example": "template name"
           },
-          "owner":{
+          "owner": {
             "$ref": "#/definitions/Contact"
           },
-          "created_by":{
+          "created_by": {
             "$ref": "#/definitions/Contact"
           },
-          "created_at":{
+          "created_at": {
             "type": "string",
             "example": "2018-06-11T14:03:15.000Z"
           },
-          "stages":{
+          "stages": {
             "type": "array",
-            "items":{
+            "items": {
               "$ref": "#/definitions/Stage"
             }
           },
-          "active":{
+          "active": {
             "type": "boolean",
             "example": true
           }
         }
-
       }
     }
   },
