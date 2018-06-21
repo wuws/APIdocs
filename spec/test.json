@@ -840,7 +840,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Folders"
+                "$ref": "#/definitions/Folder"
               }
             }
           }
