@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": " ## Welcome To The Ziflow API \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. \n  The API accepts JSON or form-encoded content in requests and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n  ### Base domain \n API calls to Ziflow should be made to the https://api.ziflow.io/v1 . \n  ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page - you can access this page by clicking on your avatar in the top right when logged in to the application.",
+    "description": " ## Welcome To The Ziflow API \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. \n  The API accepts JSON or form-encoded content in requests and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n  ### Base domain \n API calls to Ziflow should be made to the https://api.ziflow.io/v1 . \n  ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page. To access, click on your avatar in the top right and select \"View profile\". From there, click on \"API key.\"",
     "version": "",
     "title": "Ziflow API"
   },
@@ -62,7 +62,7 @@
           "proofs"
         ],
         "summary": "Creates new proof",
-        "description": "Creates a new proof, version or batch of proofs in Ziflow with a simple HTTP POST. \n \n  The POST body must include: \n * At least one URL(s) to a file or a website page. We currently support downloading files using HTTP/HTTPS and S3 also with parametrized URL.  You may also specify a URL for live website or web capturing by including the type: 'web-interactive' or 'web-static'. \n * At least one stage with member that must be the owner of the proof. The proof will be created immediately and start processing. Once processed reviewers will be notified. \n \n Returns proof_id in response body. \n \n Lock and stage_trigger (except deadline object) can be edited only on Enterprise edition. \n \n In case lock type - next_stage_starts, parent stage can be defined only by unique stage_name. \n \n In trigger object parent_stage can be defined only by unique stage_name",
+        "description": "Request creates a new proof, version or batch of proofs in Ziflow with a simple HTTP POST. \n \n  The POST body must include: \n * At least one URL(s) to a file or a website page. We currently support downloading files using HTTP/HTTPS and S3 also with parametrized URL.  You may also specify a URL for live website or web capturing by including the type: 'web-interactive' or 'web-static'. \n * At least one stage with member that must be the owner of the proof. The proof will be created immediately and start processing. Once processed reviewers will be notified. \n \n Returns proof_id in response body. \n \n Lock and stage_trigger (except deadline object) can be edited only on Enterprise edition. \n \n In case lock type - next_stage_starts, parent stage can be defined only by unique stage_name. \n \n In trigger object parent_stage can be defined only by unique stage_name",
         "consumes": [
           "application/json"
         ],
@@ -185,7 +185,7 @@
           "proofs"
         ],
         "summary": "Update an existing proof",
-        "description": "A specific, existing proof can be updated by making a PUT request on the URL for that proof. Only the fields provided in the data block will be updated; any unspecified fields will remain unchanged. \n \n ### Helpful tips: \n * It is best to specify only those fields you wish to change. \n  * When working with Stages and Members you are able to pass in only the id, which means we'll leave that object unchanged. This is useful when adding or deleting Stages or Members on the proof. \n Returns the complete updated proof record. \n \n Lock and stage_trigger (except deadline object) can be edited only on Enterprise edition. \n In case lock type - next_stage_starts, parent stage can be defined only by stage_id. \n In trigger object parent_stage can be defined only by stage_id",
+        "description": "A specific, existing proof can be updated by making a PUT request on the URL for that proof. Only the fields provided in the data block will be updated; any unspecified fields will remain unchanged. \n \n ### Helpful tips: \n * It is best to specify only the fields you wish to change. \n  * When working with Stages and Members you are only able to pass the id, which means we'll leave that object unchanged. This is useful when adding or deleting Stages or Members on the proof. \n \n Returns the complete updated proof record. \n \n Lock and stage_trigger (except deadline object) can only be edited on Enterprise edition. \n In case lock type - next_stage_starts, the parent stage can be defined only by stage_id. \n In trigger object parent_stage can only be defined by stage_id",
         "consumes": [
           "application/json"
         ],
@@ -1607,7 +1607,7 @@
       "properties": {
         "version_previous_id": {
           "type": "string",
-          "description": "If provided and the user has rights to create a new version, this proof will become the new version of the proof.",
+          "description": "If provided and the user has rights to create a new version, this proof will become the new version.",
           "required": false
         },
         "name": {
@@ -1625,7 +1625,7 @@
         "combine": {
           "type": "boolean",
           "default": false,
-          "description": "If true the input sources are combined into one proof in the order passed through. The parameter is only available for the Business and Enterprise edition. For starter edtiton forced to false",
+          "description": "If true, the input sources are combined into one proof in the order passed through. The parameter is only available for the Business and Enterprise edition. For starter edtiton forced to false",
           "required": false,
           "example": false
         },
@@ -2677,7 +2677,7 @@
   "tags": [
     {
       "name": "proofs",
-      "description": "Proofs are one of the fundamental building blocks of Ziflow. \n It is important to note the distinction between how proofs are represented within the application vs the API: \n  * Application: only the latest version of a proof visible to a logged in the user is displayed - if a proof has 4 versions, the user would see v4 with v1 to v3 sitting “behind” this latest version. \n * API: each version is its own proof object and versions are linked by use of a parent ID, thereby creating a linked list of proof objects."
+      "description": "Proofs are one of the fundamental building blocks of Ziflow. \n It is important to note the distinction between how proofs are represented within the application vs the API: \n  * Application: only the latest version of a proof is visible to a user that is logged into the application. If a proof has 4 versions, the user would see v4 with v1 to v3 sitting “behind” the latest version. \n * API: each version is its own proof object and versions are linked by a parent ID, thereby creating a linked list of proof objects."
     },
     {
       "name": "folders",
