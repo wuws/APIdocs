@@ -823,6 +823,40 @@
           }
         ]
       }
+    },
+    "/folders": {
+      "get": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Get list of top level folders",
+        "description": ".",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Folders"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Header API key parameter": []
+          },
+          {
+            "Basic HTTP authentication": []
+          },
+          {
+            "Query API key parameter": []
+          }
+        ]
+      }
     }
   },
   "securityDefinitions": {
@@ -1292,6 +1326,11 @@
           "default": false,
           "example": false,
           "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
+        },
+        "folder_id": {
+          "type": "string",
+          "example": "1f1782e1-9c2b-428f-b39c-faab8f4efff4",
+          "description": "Folder id may be required if set in Account proof settings - available only for admins on Business and Enterprise editions"
         }
       }
     },
@@ -1518,6 +1557,11 @@
         },
         "workflow_template": {
           "$ref": "#/definitions/WorkflowTemplate"
+        },
+        "folder_id": {
+          "type": "string",
+          "example": "1f1782e1-9c2b-428f-b39c-faab8f4efff4",
+          "description": "Folder id may be required if set in Account proof settings - available only for admins on Business and Enterprise editions"
         }
       }
     },
@@ -1773,6 +1817,9 @@
         },
         "workflow_template": {
           "$ref": "#/definitions/WorkflowTemplate"
+        },
+        "folder": {
+          "$ref": "#/definitions/Folder"
         }
       }
     },
@@ -2489,6 +2536,31 @@
           }
         }
       }
+    },
+    "Folder": {
+      "x-nullable": true,
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "1f1782e1-9c2b-428f-b39c-faab8f4efff4"
+        },
+        "name": {
+          "type": "string",
+          "example": "folder name"
+        },
+        "parent_folder_id": {
+          "type": "string",
+          "example": "095c96c5-d582-4f64-8038-95b520e02a98"
+        },
+        "private": {
+          "type": "boolean",
+          "example": true
+        },
+        "owner": {
+          "$ref": "#/definitions/Contact"
+        }
+      }
     }
   },
   "externalDocs": {
@@ -2496,10 +2568,13 @@
     "url": "https://www.ziflow.com/developers/api-reference/release-notes"
   },
   "tags": [
-
     {
       "name": "proofs",
       "description": "Proofs are one of the fundamental building blocks of Ziflow. \n It is important to note the distinction between how proofs are represented within the application vs the API: \n  * Application: only the latest version of a proof visible to a logged in the user is displayed - if a proof has 4 versions, the user would see v4 with v1 to v3 sitting “behind” this latest version. \n * API: each version is its own proof object and versions are linked by use of a parent ID, thereby creating a linked list of proof objects."
+    },
+    {
+      "name": "folders",
+      "description": "Folders"
     },
     {
       "name": "comments",
