@@ -863,7 +863,7 @@
           "workflow template"
         ],
         "summary": "Get list of workflow templates",
-        "description": "Request available only on Enterprise edition. Can be performed only by user with admin rights.",
+        "description": "Request available only on Enterprise edition. Can be performed only by users with admin rights.",
         "produces": [
           "application/json"
         ],
@@ -2685,15 +2685,15 @@
     },
     {
       "name": "comments",
-      "description": "Communication over the proofs is done via comments and replies function inside Proof Viewer tool."
+      "description": "Communication over the proofs is done via comments and replies function inside the Proof Viewer tool."
     },
     {
       "name": "people",
-      "description": "In Ziflow we have two type of contacts. \n One of them are Ziflow users and second one are all the guests that might have been invited to your proofs."
+      "description": "In Ziflow there are two type of contacts - Ziflow users and guests that may have been invited into the proof approval process."
     },
     {
       "name": "webhooks",
-      "description": "Webhooks allows you to subscribe to changes and be notified of these changes as and when they occur. \n Webhooks are basically an easy way to receive notification of changes (Events) via an HTTP POST instead of polling for them. For services accessible via HTTP this is vastly more convenient and efficient. \n \n Ziflow currently sends one Event object per POST. We will later on extend this and send arrays of Event objects per POST which should be handled by the target. "
+      "description": "Webhooks allow you to subscribe to changes and be notified of these changes as they occur. \n Webhooks are basically an easy way to receive notification of changes (Events) via an HTTP POST instead of polling for them. For services accessible via HTTP this is vastly more convenient and efficient. \n \n Ziflow currently sends one Event object per POST. We will later on extend this and send arrays of Event objects per POST which should be handled by the target. "
     },
     {
       "name": "workflow template",
@@ -2701,7 +2701,7 @@
     },
     {
       "name": "release notes",
-      "description": "## Release 18.6 \n \n ### Date: tbd \n * Get folders and get folder by id \n * Create proof in folder/move proof to folder using folder_id field in POST/PUT proof \n * GET Proof body object updated with new object Folder \n * Post reviewer directly to stage request added \n \n ## Release 18.5 \n \n ### Date: 7.06.2018 \n * Deadline setting changed - deadline can be set only in Deadline object present in Stage Trigger object, field deadline in Stage becomes read only and represents calculated deadline once Stage starts \n * Included workflow properties (Workflow template object, Lock stage, Stage Trigger in proof object model). Impact on all GET proof response's body, in POST proof body, options available to set only for Enterprise edition users \n * GET /proofs returns proof list \n * GET all users \n * GET user by id \n * DELETE user by id \n * GET workflow template's list - Avialable only on Enterprise edition and only for users with admin rights \n * POST - create proof from workflow template \n * Extend POST and GET comment with markups "
+      "description": "## Release 18.6 \n \n ### Date: tbd \n * Get folders and get folder by id \n * Create proof in folder/move proof to folder using folder_id field in POST/PUT proof \n * GET Proof body object updated with new object Folder \n * Post reviewer directly to stage request added \n \n ## Release 18.5 \n \n ### Date: 7.06.2018 \n * Deadline setting changed - deadline can be set only in Deadline object present in Stage Trigger object, field deadline in Stage becomes read only and represents calculated deadline once Stage starts \n * Included workflow properties (Workflow template object, Lock stage, Stage Trigger in proof object model). Impact on all GET proof response's body, in POST proof body, options available to set only for Enterprise edition \n * GET /proofs returns proof list \n * GET all users \n * GET user by id \n * DELETE user by id \n * GET workflow template's list - Available for users with admin rights on Enterprise edition only. \n * POST - create proof from workflow template \n * Extend POST and GET comment with markups "
     }
   ]
 }
