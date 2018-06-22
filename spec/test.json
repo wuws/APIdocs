@@ -61,7 +61,7 @@
         "tags": [
           "proofs"
         ],
-        "summary": "Creates new proof",
+        "summary": "Create new proof",
         "description": "Creates a new proof, version or batch of proofs in Ziflow with a simple HTTP POST. \n \n  The POST body must include: \n * At least one URL(s) to a file or a website page. We currently support downloading files using HTTP/HTTPS and S3 also with parametrized URL.  You may also specify a URL for live website or web capturing by including the type: 'web-interactive' or 'web-static'. \n * At least one stage with member that must be the owner of the proof. The proof will be created immediately and start processing. Once processed reviewers will be notified. \n \n Returns proof_id in response body. \n \n Lock and stage_trigger (except deadline object) can be edited only on Enterprise edition. \n \n In case lock type - next_stage_starts, parent stage can be defined only by unique stage_name. \n \n In trigger object parent_stage can be defined only by unique stage_name",
         "consumes": [
           "application/json"
@@ -150,7 +150,7 @@
         "tags": [
           "proofs"
         ],
-        "summary": "Deletes a proof",
+        "summary": "Delete a proof",
         "produces": [
           "application/json"
         ],
@@ -338,7 +338,7 @@
         "tags": [
           "proofs"
         ],
-        "summary": "Deletes all proof's versions",
+        "summary": "Delete all proof's versions",
         "parameters": [
           {
             "name": "id",
@@ -371,7 +371,7 @@
         "tags": [
           "proofs"
         ],
-        "summary": "Adds reviewer directly to specific stage",
+        "summary": "Add reviewer directly to specific stage",
         "consumes": [
           "application/json"
         ],
@@ -382,7 +382,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Proof id to delete",
+            "description": "Proof id",
             "required": true,
             "type": "string"
           },
@@ -746,7 +746,7 @@
         "tags": [
           "webhooks"
         ],
-        "summary": "Post webhooks configuration",
+        "summary": "Create webhooks configuration",
         "description": "Creates a new subscription with a simple HTTP POST. \n Can be performed only by user with Admin rights.",
         "produces": [
           "application/json"
@@ -794,7 +794,7 @@
         "tags": [
           "webhooks"
         ],
-        "summary": "Post webhooks configuration",
+        "summary": "Delete webhooks configuration",
         "description": "Deletes subscription with a simple HTTP POST. \n Can be performed only by user with Admin rights.",
         "produces": [
           "application/json"
