@@ -17,7 +17,7 @@
           "proofs"
         ],
         "summary": "Get proof list",
-        "description": "Returns a paginated list of proofs with a maximum of 100 proofs. It returns the latest version the user making the API call can see. A list is sorted from the newest to the oldest proofs. \n Returns array of proof object",
+        "description": "Returns a list of all proof's latest versions which are visible to the author of the request. List is sorted from newest to oldest.",
         "produces": [
           "application/json"
         ],
@@ -62,7 +62,7 @@
           "proofs"
         ],
         "summary": "Creates new proof",
-        "description": "Request creates a new proof, version or batch of proofs in Ziflow with a simple HTTP POST. \n \n  The POST body must include: \n * At least one URL(s) to a file or a website page. We currently support downloading files using HTTP/HTTPS and S3 also with parametrized URL.  You may also specify a URL for live website or web capturing by including the type: 'web-interactive' or 'web-static'. \n * At least one stage with member that must be the owner of the proof. The proof will be created immediately and start processing. Once processed reviewers will be notified. \n \n Returns proof_id in response body. \n \n Lock and stage_trigger (except deadline object) can be edited only on Enterprise edition. \n \n In case lock type - next_stage_starts, parent stage can be defined only by unique stage_name. \n \n In trigger object parent_stage can be defined only by unique stage_name",
+        "description": "Creates a new proof, version or batch of proofs in Ziflow with a simple HTTP POST. \n \n  The POST body must include: \n * At least one URL(s) to a file or a website page. We currently support downloading files using HTTP/HTTPS and S3 also with parametrized URL.  You may also specify a URL for live website or web capturing by including the type: 'web-interactive' or 'web-static'. \n * At least one stage with member that must be the owner of the proof. The proof will be created immediately and start processing. Once processed reviewers will be notified. \n \n Returns proof_id in response body. \n \n Lock and stage_trigger (except deadline object) can be edited only on Enterprise edition. \n \n In case lock type - next_stage_starts, parent stage can be defined only by unique stage_name. \n \n In trigger object parent_stage can be defined only by unique stage_name",
         "consumes": [
           "application/json"
         ],
