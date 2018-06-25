@@ -3,7 +3,10 @@
   "info": {
     "description": " ## Welcome To The Ziflow API \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. \n  The API accepts JSON or form-encoded content in requests and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n  ### Base domain \n API calls to Ziflow should be made to the https://api.ziflow.io/v1 . \n  ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page. To access, click on your avatar in the top right and select \"View profile\". From there, click on \"API key.\"",
     "version": "",
-    "title": "Ziflow API"
+    "title": "Ziflow API",
+    "x-logo":{
+      "url": ""
+    }
   },
   "host": "api.ziflow.io",
   "basePath": "/v1",
@@ -1460,7 +1463,7 @@
         },
         "final_status_calculation": {
           "type": "object",
-          "description": "Define how decision will be calculated - available on Business and Enterprise editions only.",
+          "description": "Defines how decision will be calculated - available on Business and Enterprise editions only.",
           "properties": {
             "reviewer_id": {
               "type": "string",
@@ -1705,7 +1708,7 @@
         },
         "final_status_calculation": {
           "type": "object",
-          "description": "Define how decision will be calculated - available on Business and Enterprise editions only.",
+          "description": "Defines how decision will be calculated - available on Business and Enterprise editions only.",
           "properties": {
             "reviewer_email": {
               "type": "string",
@@ -2027,7 +2030,7 @@
         },
         "final_status_calculation": {
           "type": "object",
-          "description": "Define how stage decision status will be calculated - changing type and deifining reviewer is available on Business and Enterprise editions only. On Starter edition, object is read-only and reflects either all_decisions or \"only_one_decision\" if set true in field below",
+          "description": "Defines how stage decision status will be calculated - changing type and deifining reviewer is available on Business and Enterprise editions only. On Starter edition, object is read-only and reflects either all_decisions or \"only_one_decision\" if set true in field below",
           "properties": {
             "reviewer_id": {
               "type": "string",
@@ -2767,7 +2770,7 @@
     },
     {
       "name": "release notes",
-      "description": "## Release 18.6 \n \n ### Date: tbd \n * GET/folders and GET/folders/id added \n * Create proof in folder/move proof to folder using \"folder_id\" field in POST and PUT proof request \n * GET Proof body object updated with new object Folder \n * New request POST reviewer directly to stage added \n * Final status calculation added to Proof object - can be modified on Enterprise and Business editions only. On starter edition it's read-only object. Impacted request's responses: GET/v1/proofs{id}, GET/v1/proofs and PUT/v1/proofs{id}  \n \n ## Release 18.5 \n \n ### Date: 7.06.2018 \n * Deadline setting changed - deadline can be set only in Deadline object present in Stage Trigger object, field deadline in Stage becomes read only and represents calculated deadline once Stage starts \n * Included workflow properties (Workflow template object, Lock stage, Stage Trigger in proof object model). Impact on all GET proof response's body, in POST proof body, options available to set only for Enterprise edition \n * GET /proofs returns proof list \n * GET all users \n * GET user by id \n * DELETE user by id \n * GET workflow template's list - Available for users with admin rights on Enterprise edition only \n * POST - create proof from workflow template \n * Extend POST and GET comment with markups "
+      "description": "## Release 18.6 \n \n ### Date: tbd \n * GET/folders and GET/folders/id added \n * Create proof in folder/move proof to folder using \"folder_id\" field in POST and PUT proof request \n * GET Proof body object updated with new object Folder \n * New request POST reviewer directly to stage added \n * Final status calculation added to Proof's Stage object - can be modified on Enterprise and Business editions only. On starter edition it's read-only object. Impacted request's responses: GET/v1/proofs{id}, GET/v1/proofs and PUT/v1/proofs{id}  \n \n ## Release 18.5 \n \n ### Date: 7.06.2018 \n * Deadline setting changed - deadline can be set only in Deadline object present in Stage Trigger object, field deadline in Stage becomes read only and represents calculated deadline once Stage starts \n * Included workflow properties (Workflow template object, Lock stage, Stage Trigger in proof object model). Impact on all GET proof response's body, in POST proof body, options available to set only for Enterprise edition \n * GET /proofs returns proof list \n * GET all users \n * GET user by id \n * DELETE user by id \n * GET workflow template's list - Available for users with admin rights on Enterprise edition only \n * POST - create proof from workflow template \n * Extend POST and GET comment with markups "
     }
   ]
 }
