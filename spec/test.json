@@ -5,7 +5,7 @@
     "version": "",
     "title": "Ziflow API",
     "x-logo":{
-      "url": ""
+      "url": "https://s3.amazonaws.com/ziflow-automation-testing/logo/ziflow_developers.png"
     }
   },
   "host": "api.ziflow.io",
