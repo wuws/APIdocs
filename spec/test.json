@@ -2827,10 +2827,6 @@
       }
     }
   },
-  "externalDocs": {
-    "description": "Release notes",
-    "url": "https://www.ziflow.com/developers/api-reference/release-notes"
-  },
   "tags": [
     {
       "name": "proofs",
