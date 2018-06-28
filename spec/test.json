@@ -4,7 +4,7 @@
     "description": " ## Welcome To The Ziflow API \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. \n  The API accepts JSON or form-encoded content in requests and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n  ### Base domain \n API calls to Ziflow should be made to the https://api.ziflow.io/v1 . \n  ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page. To access, click on your avatar in the top right and select \"View profile\". From there, click on \"API key.\"",
     "version": "",
     "title": "Ziflow API",
-    "x-logo":{
+    "x-logo": {
       "url": "https://s3.amazonaws.com/ziflow-automation-testing/logo/ziflow_developers.png"
     }
   },
@@ -536,6 +536,46 @@
         ]
       }
     },
+    "/users/{email}": {
+      "get": {
+        "tags": [
+          "people"
+        ],
+        "summary": "Get User",
+        "description": "Returns information about a specific user in the account.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "User's email",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        },
+        "security": [
+          {
+            "Header API key parameter": []
+          },
+          {
+            "Basic HTTP authentication": []
+          },
+          {
+            "Query API key parameter": []
+          }
+        ]
+      }
+    },
     "/contacts": {
       "get": {
         "tags": [
@@ -1033,14 +1073,14 @@
                         "comment",
                         "decision",
                         "status",
-                        "deleted"
+                        "deleted",
+                        "opened"
                       ],
                       "type": "string",
                       "example": "comment"
                     },
                     "comment_event": {
                       "type": "object",
-                      "default": null,
                       "x-nullable": true,
                       "properties": {
                         "comment_id": {
@@ -1058,13 +1098,58 @@
                           ],
                           "type": "string",
                           "example": "created"
+                        },
+                        "text": {
+                          "type": "string",
+                          "example": "Comment text"
+                        },
+                        "like": {
+                          "type": "boolean",
+                          "example": false,
+                          "x-nullable": true
                         }
                       }
                     },
                     "decision_event": {
                       "type": "object",
                       "x-nullable": true,
-                      "default": null,
+                      "properties": {
+                        "reviewer_id": {
+                          "type": "string",
+                          "example": "af1f6f4f-8b71-4351-b9be-4007aad62266"
+                        },
+                        "decision": {
+                          "enum": [
+                            "approved",
+                            "approved_with_changes",
+                            "changes_required",
+                            "not_relevant",
+                            "pending"
+                          ],
+                          "type": "string",
+                          "example": "changes_required"
+                        }
+                      }
+                    },
+                    "status_event": {
+                      "type": "object",
+                      "x-nullable": true,
+                      "properties": {
+                        "status": {
+                          "enum": [
+                            "changes_required",
+                            "approved_with_changes",
+                            "approved",
+                            "not_relevant"
+                          ],
+                          "type": "string",
+                          "example": "approved"
+                        }
+                      }
+                    },
+                    "opened_event": {
+                      "type": "object",
+                      "x-nullable": true,
                       "properties": {
                         "reviewer_id": {
                           "type": "string",
@@ -1155,6 +1240,10 @@
               "example": true
             },
             "decision": {
+              "type": "boolean",
+              "example": true
+            },
+            "first_opened": {
               "type": "boolean",
               "example": true
             }
@@ -2041,7 +2130,6 @@
               "type": "string",
               "example": "reviewer@domain.com",
               "description": "If type \"primary_decision_maker\" defines the reviewer, who's decision will decide on stage status"
-
             },
             "type": {
               "enum": [
@@ -2770,7 +2858,7 @@
     },
     {
       "name": "release notes",
-      "description": "## Release 18.6 \n \n ### Date: tbd \n * GET/folders and GET/folders/id added \n * Create proof in folder/move proof to folder using \"folder_id\" field in POST and PUT proof request \n * GET Proof body object updated with new object Folder \n * New request POST reviewer directly to stage added \n * Final status calculation added to Proof's Stage object - can be modified on Enterprise and Business editions only. On starter edition it's read-only object. Impacted request's responses: GET/v1/proofs{id}, GET/v1/proofs and PUT/v1/proofs{id}  \n \n ## Release 18.5 \n \n ### Date: 7.06.2018 \n * Deadline setting changed - deadline can be set only in Deadline object present in Stage Trigger object, field deadline in Stage becomes read only and represents calculated deadline once Stage starts \n * Included workflow properties (Workflow template object, Lock stage, Stage Trigger in proof object model). Impact on all GET proof response's body, in POST proof body, options available to set only for Enterprise edition \n * GET /proofs returns proof list \n * GET all users \n * GET user by id \n * DELETE user by id \n * GET workflow template's list - Available for users with admin rights on Enterprise edition only \n * POST - create proof from workflow template \n * Extend POST and GET comment with markups "
+      "description": "## Release 18.6 \n \n ### Date: tbd \n * GET/folders and GET/folders/id added \n * Create proof in folder/move proof to folder using \"folder_id\" field in POST and PUT proof request \n * GET Proof body object updated with new object Folder \n * New request POST reviewer directly to stage added \n * Final status calculation added to Proof's Stage object - can be modified on Enterprise and Business editions only. On starter edition it's read-only object. Impacted request's responses: GET/v1/proofs{id}, GET/v1/proofs and PUT/v1/proofs{id} \n * GET/users by email added \n * Webhooks configuration - new evetn \"first_opened\" added \n * Proof opened Webhook Event type added - \"opened_event\" object added to event strucutre, \"action\" field updated with \"opened\" value; event sent only when proof is opened for the first time \n * webhook event \"comment_event\" extended with fields \"text\" and \"like\" \n * Webhook event \"decision_event\" extended with \"decision\" field which contains decision type \n * Status event object added to webhook event structure containing proof's status  \n \n ## Release 18.5 \n \n ### Date: 7.06.2018 \n * Deadline setting changed - deadline can be set only in Deadline object present in Stage Trigger object, field deadline in Stage becomes read only and represents calculated deadline once Stage starts \n * Included workflow properties (Workflow template object, Lock stage, Stage Trigger in proof object model). Impact on all GET proof response's body, in POST proof body, options available to set only for Enterprise edition \n * GET /proofs returns proof list \n * GET all users \n * GET user by id \n * DELETE user by id \n * GET workflow template's list - Available for users with admin rights on Enterprise edition only \n * POST - create proof from workflow template \n * Extend POST and GET comment with markups "
     }
   ]
 }
