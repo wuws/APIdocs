@@ -462,6 +462,49 @@
             "Query API key parameter": []
           }
         ]
+      },
+      "post": {
+        "tags": [
+          "people"
+        ],
+        "summary": "Add user",
+        "description": "Adds user to the accout. Can be performed by Admin only",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PostUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ProofIdResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Header API key parameter": []
+          },
+          {
+            "Basic HTTP authentication": []
+          },
+          {
+            "Query API key parameter": []
+          }
+        ]
       }
     },
     "/users/{id}": {
@@ -1365,6 +1408,71 @@
           "items": {
             "type": "string",
             "example": "67aab501-7d6d-4b31-9bec-398fd61ec0a3"
+          }
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Has value only for Admin",
+          "example": "pl02patqv8t82q3h5tmup4dogdohvstes"
+        }
+      }
+    },
+    "PostUser": {
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "example": "User"
+        },
+        "last_name": {
+          "type": "string",
+          "example": "Name"
+        },
+        "email": {
+          "type": "string",
+          "example": "name@domain.com",
+          "required": true
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "admin",
+              "manager",
+              "billing",
+              "user"
+            ],
+            "type": "string",
+            "example": "manager"
+          }
+        },
+        "phone": {
+          "type": "string",
+          "example": "+4412345678911"
+        },
+        "timezone": {
+          "type": "string",
+          "example": "Europe/London"
+        },
+        "verified": {
+          "type": "boolean",
+          "example": true
+        },
+        "active": {
+          "type": "boolean",
+          "example": true
+        },
+        "group": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "67aab501-7d6d-4b31-9bec-398fd61ec0a3"
+          }
+        },
+        "password": {
+          "type": "String",
+            "example": "UserPassword123",
+          "description": "Must be provided if verified=true. Must be at least 8 characters, 1 number and 1 capital letter"
           }
         }
       }
