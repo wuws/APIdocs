@@ -1475,8 +1475,7 @@
           "description": "Must be provided if verified=true. Must be at least 8 characters, 1 number and 1 capital letter"
           }
         }
-      }
-    },
+      },
     "Users": {
       "type": "array",
       "items": {
