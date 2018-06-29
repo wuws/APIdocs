@@ -1419,6 +1419,9 @@
     },
     "PostUser": {
       "type": "object",
+      "required": [
+        "email"
+      ],
       "properties": {
         "first_name": {
           "type": "string",
