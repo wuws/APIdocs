@@ -1446,7 +1446,8 @@
               "user"
             ],
             "type": "string",
-            "example": "manager"
+            "example": "manager",
+            "default": "user"
           }
         },
         "phone": {
@@ -1455,11 +1456,13 @@
         },
         "timezone": {
           "type": "string",
-          "example": "Europe/London"
+          "example": "Europe/London",
+          "default": "account_owner_timezone"
         },
         "verified": {
           "type": "boolean",
-          "example": true
+          "example": true,
+          "default": false
         },
         "active": {
           "type": "boolean",
