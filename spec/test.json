@@ -2947,7 +2947,7 @@
     },
     {
       "name": "folders",
-      "description": "Folders"
+      "description": "Folders help organize proofs into a logical structure e.g. projects, time, etc. Folders may contain any number sub-folders."
     },
     {
       "name": "comments",
@@ -2963,7 +2963,7 @@
     },
     {
       "name": "workflow template",
-      "description": "workflow template"
+      "description": "Workflow templates allow administrators to preconfigure the stages and reviewers based on existing review and approval processes. The templates are then used by proof managers during the proof creation step to automatically populate the stages and reviewers."
     },
     {
       "name": "release notes",
