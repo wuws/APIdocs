@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": " ## Welcome To The Ziflow API \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. \n  The API accepts JSON or form-encoded content in requests and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n  ### Base domain \n API calls to Ziflow should be made to the https://api.ziflow.io/v1 . \n  ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page. To access, click on your avatar in the top right and select \"View profile\". From there, click on \"API key.\"",
+    "description": " ## Welcome To The Ziflow API \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. \n  The API accepts JSON or form-encoded content in requests, and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n  ### Base domain \n API calls to Ziflow should be made to the https://api.ziflow.io/v1 . \n  ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page. To access, click on your avatar in the top right and select \"View profile\". From there, click on \"API key.\"",
     "version": "",
     "title": "Ziflow API",
     "x-logo": {
@@ -19,8 +19,8 @@
         "tags": [
           "proofs"
         ],
-        "summary": "Get proof list",
-        "description": "Returns a list of all proof's latest versions which are visible to the author of the request. List is sorted from newest to oldest.",
+        "summary": "Get proofs",
+        "description": "Returns a paginated list of proofs available for the user. Proofs are sorted from latest to oldest.",
         "produces": [
           "application/json"
         ],
@@ -65,7 +65,7 @@
           "proofs"
         ],
         "summary": "Create new proof",
-        "description": "Creates a new proof, version or batch of proofs in Ziflow with a simple HTTP POST. \n \n  The POST body must include: \n * At least one URL(s) to a file or a website page. We currently support downloading files using HTTP/HTTPS and S3 also with parametrized URL.  You may also specify a URL for live website or web capturing by including the type: 'web-interactive' or 'web-static'. \n * At least one stage with member that must be the owner of the proof. The proof will be created immediately and start processing. Once processed reviewers will be notified. \n \n Returns proof_id in response body. \n \n Lock and stage_trigger (except deadline object) can be edited only on Enterprise edition. \n \n In case lock type - next_stage_starts, parent stage can be defined only by unique stage_name. \n \n In trigger object parent_stage can be defined only by unique stage_name.",
+        "description": "Creates a new proof, version or batch of proofs in Ziflow with a simple HTTP POST. \n \n  The POST body must include: \n * At least one URL to a file or a website page. We currently support downloading files using HTTP/HTTPS and S3 also with parametrized URL.  You may also specify a URL for live website or web capturing by including the type: 'web-interactive' or 'web-static'. \n * At least one stage with the owner present in one of those stages. The proof will be created immediately and start processing. Once processed reviewers will be notified. \n \n Returns proof_id in response body. \n \n Lock and stage_trigger (except deadline object) can be edited only on Enterprise edition. \n \n In case stage lock or trigger, when referring to parent or next stage, the name of each stage must be unique.",
         "consumes": [
           "application/json"
         ],
@@ -115,8 +115,8 @@
         "tags": [
           "proofs"
         ],
-        "summary": "Get specific proof by ID",
-        "description": "Returns information about a single proof version.",
+        "summary": "Get proof by ID",
+        "description": "Returns the proof for the given ID.",
         "produces": [
           "application/json"
         ],
@@ -124,7 +124,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Proof id",
+            "description": "Proof ID",
             "required": true,
             "type": "string"
           }
@@ -188,7 +188,7 @@
           "proofs"
         ],
         "summary": "Update an existing proof",
-        "description": "A specific, existing proof can be updated by making a PUT request on the URL for that proof. Only the fields provided in the data block will be updated; any unspecified fields will remain unchanged. \n \n ### Helpful tips: \n * It is best to specify only the fields you wish to change. \n  * When working with Stages and Members you are only able to pass the id, which means we'll leave that object unchanged. This is useful when adding or deleting Stages or Members on the proof. \n \n Returns the complete updated proof record. \n \n Lock and stage_trigger (except deadline object) can only be edited on Enterprise edition. \n In case lock type - next_stage_starts, the parent stage can be defined only by stage_id. \n In trigger object parent_stage can only be defined by stage_id.",
+        "description": "A specific, existing proof can be updated by making a PUT request on the URL for that proof. Only the fields provided in the data block will be updated. Any unspecified fields will remain unchanged. \n \n ### Helpful tips: \n * It is best to specify only the fields you wish to change. \n  * When working with Stages and Members you are only able to pass the id, which means we'll leave that object unchanged. This is useful when adding or deleting stages or members on the proof. \n \n Returns the complete updated proof record. \n \n Lock and stage_trigger (except deadline object) can only be edited on Enterprise edition. \n In case stage lock or trigger, parent or next stage can only be defined by stage_id.",
         "consumes": [
           "application/json"
         ],
@@ -199,7 +199,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Proof id",
+            "description": "Proof ID",
             "required": true,
             "type": "string"
           },
@@ -239,8 +239,8 @@
         "tags": [
           "proofs"
         ],
-        "summary": "Post reviewer's status",
-        "description": "Reviewer id is optional. \n Either decision or completed must be provided dependent on user's review permissions.",
+        "summary": "Make decision/Complete review",
+        "description": "Make a decision or mark the review as complete dependent on the reviewer's proof role. If the reviewer_id is not provided, the method will attempt to update the user with this API key on the proof's status.",
         "consumes": [
           "application/json"
         ],
@@ -251,7 +251,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Proof id",
+            "description": "Proof ID",
             "required": true,
             "type": "string"
           },
@@ -289,8 +289,8 @@
         "tags": [
           "proofs"
         ],
-        "summary": "Update reviewer's status",
-        "description": "Reviewer id is optional. \n Either decision or completed must be provided dependent on user's review permissions.",
+        "summary": "Update decision/Update review status",
+        "description": "Make a decision or mark the review as complete dependent on the reviewer's proof role. If the reviewer_id is not provided, the method will attempt to update the user with this API key on the proof's status.",
         "consumes": [
           "application/json"
         ],
@@ -341,12 +341,13 @@
         "tags": [
           "proofs"
         ],
-        "summary": "Delete all proof's versions",
+        "summary": "Delete proof set",
+        "description": "The method deletes all versions within a proof set.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Proof id to delete",
+            "description": "Proof ID to delete",
             "required": true,
             "type": "string"
           }
@@ -369,12 +370,13 @@
         ]
       }
     },
-    "/proofs/{id}/stages/{stage_id}/reviewers": {
+    "/proofs/{proof_id}/stages/{stage_id}/reviewers": {
       "post": {
         "tags": [
           "proofs"
         ],
-        "summary": "Add reviewer directly to specific stage",
+        "summary": "Add reviewer",
+        "description": "The method adds a reviewer to a specific stage on the proof.",
         "consumes": [
           "application/json"
         ],
@@ -383,16 +385,16 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "proof_id",
             "in": "path",
-            "description": "Proof id",
+            "description": "Proof ID",
             "required": true,
             "type": "string"
           },
           {
             "name": "stage_id",
             "in": "path",
-            "description": "Id of stage in proof to which you want to add reviewer",
+            "description": "ID of stage in proof to which you want to add reviewer",
             "required": true,
             "type": "string"
           },
@@ -438,8 +440,8 @@
         "tags": [
           "people"
         ],
-        "summary": "Get all users",
-        "description": "Returns list of all users.",
+        "summary": "Get users",
+        "description": "Returns the list of users registered in your account.",
         "produces": [
           "application/json"
         ],
@@ -468,7 +470,7 @@
           "people"
         ],
         "summary": "Add user",
-        "description": "Adds user to the accout. Can be performed by Admin only",
+        "description": "Add a user to your account. This method can only be performed by users with Admin permissions.",
         "consumes": [
           "application/json"
         ],
@@ -551,7 +553,7 @@
           "people"
         ],
         "summary": "Delete user",
-        "description": "Deletes specific user. Can be performed only by Admin. \n Returns empty data record",
+        "description": "Deletes specific user. This can only be performed by Admins. \n Returns empty data record",
         "parameters": [
           {
             "name": "id",
@@ -695,8 +697,8 @@
         "tags": [
           "comments"
         ],
-        "summary": "Get proof's comment list",
-        "description": "Returns list of all comments for a specific proof.",
+        "summary": "Get comments",
+        "description": "Returns the comments made on the proof.",
         "produces": [
           "application/json"
         ],
@@ -704,7 +706,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Proof id",
+            "description": "Proof ID",
             "required": true,
             "type": "string"
           }
@@ -733,8 +735,8 @@
         "tags": [
           "comments"
         ],
-        "summary": "Add comment to the proof",
-        "description": "Adds new comment to specified proof.",
+        "summary": "Add comment",
+        "description": "Adds a new comment to the proof.",
         "consumes": [
           "application/json"
         ],
@@ -745,14 +747,14 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Proof id",
+            "description": "Proof ID",
             "required": true,
             "type": "string"
           },
           {
             "in": "body",
             "name": "body",
-            "description": "Pet object that needs to be added to the store",
+            "description": "Comment object",
             "required": true,
             "schema": {
               "$ref": "#/definitions/PostComment"
@@ -786,7 +788,7 @@
           "comments"
         ],
         "summary": "Get comment",
-        "description": "Returns specific comment.",
+        "description": "Returns a specific comment.",
         "produces": [
           "application/json"
         ],
@@ -832,8 +834,8 @@
         "tags": [
           "webhooks"
         ],
-        "summary": "Create webhooks configuration",
-        "description": "Creates a new subscription with a simple HTTP POST. \n Can be performed only by user with Admin rights.",
+        "summary": "Create webhook subscription",
+        "description": "Creates a new subscription with a simple HTTP POST. \n This can only be performed by users with admin permissions.",
         "produces": [
           "application/json"
         ],
@@ -880,8 +882,8 @@
         "tags": [
           "webhooks"
         ],
-        "summary": "Delete webhooks configuration",
-        "description": "Deletes subscription with a simple HTTP POST. \n Can be performed only by user with Admin rights.",
+        "summary": "Delete webhook subscription",
+        "description": "Deletes subscription with a simple HTTP POST. \n This can only be performed by users with admin permissions.",
         "produces": [
           "application/json"
         ],
@@ -948,8 +950,8 @@
         "tags": [
           "workflow template"
         ],
-        "summary": "Get list of workflow templates",
-        "description": "Request available only on Enterprise edition. Can be performed only by users with admin rights.",
+        "summary": "Get workflow templates",
+        "description": "Request only available on Enterprise edition. This can only be performed by users with admin permissions.",
         "produces": [
           "application/json"
         ],
@@ -979,8 +981,8 @@
         "tags": [
           "folders"
         ],
-        "summary": "Get list of top level folders",
-        "description": ".",
+        "summary": "Get root folders",
+        "description": "Returns the list of top level folders the user can access.",
         "produces": [
           "application/json"
         ],
@@ -1013,8 +1015,8 @@
         "tags": [
           "folders"
         ],
-        "summary": "Get list of sub-folders with given parent folder id",
-        "description": ".",
+        "summary": "Get folders",
+        "description": "Returns the sub-folders within the given folder ID.",
         "produces": [
           "application/json"
         ],
@@ -1022,7 +1024,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Folder id",
+            "description": "Folder ID",
             "required": true,
             "type": "string"
           }
@@ -1637,12 +1639,12 @@
           "type": "boolean",
           "default": false,
           "example": false,
-          "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
+          "description": "If true, Ziflow will not send any emails regarding this proof. The only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application."
         },
         "folder_id": {
           "type": "string",
           "example": "1f1782e1-9c2b-428f-b39c-faab8f4efff4",
-          "description": "Folder id may be required if set in Account proof settings - available only for admins on Business and Enterprise editions"
+          "description": "Folder ID may be required if set up in Account proof settings - available only for admins on Business and Enterprise editions"
         }
       }
     },
@@ -1850,7 +1852,7 @@
         "combine": {
           "type": "boolean",
           "default": false,
-          "description": "If true, the input sources are combined into one proof in the order passed through. The parameter is only available for the Business and Enterprise edition. For starter edtiton forced to false",
+          "description": "If true, the input sources are combined into one proof in the order passed through. The parameter is only available for the Business and Enterprise edition. The Starter edition is forced to false",
           "required": false,
           "example": false
         },
@@ -1884,7 +1886,7 @@
         "suppress_all_emails": {
           "type": "boolean",
           "default": false,
-          "description": "If true, Ziflow will not send any emails regarding this proof.nThe only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application.",
+          "description": "If true, Ziflow will not send any emails regarding this proof. The only emails that can be triggered are the emails that are sent when using the 'remind' function within the web application.",
           "example": false
         },
         "workflow_template": {
@@ -1893,7 +1895,7 @@
         "folder_id": {
           "type": "string",
           "example": "1f1782e1-9c2b-428f-b39c-faab8f4efff4",
-          "description": "Folder id may be required if set in Account proof settings - available only for admins on Business and Enterprise editions"
+          "description": "Folder id may be required if set in Account proof settings - available only for admins on Business and Enterprise editions."
         }
       }
     },
@@ -2947,19 +2949,19 @@
     },
     {
       "name": "folders",
-      "description": "Folders help organize proofs into a logical structure e.g. projects, time, etc. Folders may contain any number sub-folders."
+      "description": "Folders help organize proofs into a logical structure e.g. projects, time, etc. Folders may contain any number of sub-folders."
     },
     {
       "name": "comments",
-      "description": "Communication over the proofs is done via comments and replies function inside the Proof Viewer tool."
+      "description": "Comments, replies and markups are made on proofs by reviewers to provide feedback on the content and design of the original file(s) or site."
     },
     {
       "name": "people",
-      "description": "In Ziflow there are two type of contacts - Ziflow users and guests that may have been invited into the proof approval process."
+      "description": "People in your Ziflow account are categorized into three categories: \n \n 1. Users in your account \n \n 2. Users from other accounts \n \n 3. Guests - these are users without Ziflow user accounts."
     },
     {
       "name": "webhooks",
-      "description": "Webhooks allow you to subscribe to changes and be notified of these changes as they occur. \n Webhooks are basically an easy way to receive notification of changes (Events) via an HTTP POST instead of polling for them. For services accessible via HTTP this is vastly more convenient and efficient. \n \n Ziflow currently sends one Event object per POST. We will later on extend this and send arrays of Event objects per POST which should be handled by the target. "
+      "description": "Webhooks allow you to subscribe to changes and be notified of these changes as they occur. \n Webhooks are basically an easy way to receive notification of changes (Events) via an HTTP POST instead of polling for them. For services accessible via HTTP this is vastly more convenient and efficient. \n \n Ziflow currently sends one Event object per POST. We will later on extend this and send arrays of Event objects per POST which should be handled by the target. \n \n ### Webhooks Setup \n \n Webhook Subscriptions tell Ziflow what a particular app would like to get notified about. We currently support the following subscription types: \n Proof events: \n * Created \n * Processed (succeeded or failed) \n * Deleted \n * Updated \n * Status change \n * All comment events \n * Opened \n * All decisions events \n \n ### Managing Subscriptions via the UI \n \n  You can create and manage webhooks via the UI: \n 1. Log in to your Ziflow account and ensure you have Admin permissions \n 2. Click on your Avatar (top right) -> Manage account -> Webhooks \n \n Here you’ll be able to add, remove, update and activate/deactivate webhooks."
     },
     {
       "name": "workflow template",
