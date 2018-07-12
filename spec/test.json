@@ -579,6 +579,56 @@
             "Query API key parameter": []
           }
         ]
+      },
+      "put": {
+        "tags": [
+          "people"
+        ],
+        "summary": "Update an existing user",
+        "description": "The method to update an existing user. This can only be performed by Admins. Returns updated User object.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PutUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        },
+        "security": [
+          {
+            "Header API key parameter": []
+          },
+          {
+            "Basic HTTP authentication": []
+          },
+          {
+            "Query API key parameter": []
+          }
+        ]
       }
     },
     "/users/{email}": {
@@ -977,6 +1027,52 @@
             "Query API key parameter": []
           }
         ]
+      },
+      "post": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Create new folder",
+        "description": "Returns created folder.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Folder object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PostFolder"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Folder"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Header API key parameter": []
+          },
+          {
+            "Basic HTTP authentication": []
+          },
+          {
+            "Query API key parameter": []
+          }
+        ]
       }
     },
     "/folders/{id}": {
@@ -1007,6 +1103,103 @@
                 "$ref": "#/definitions/Folder"
               }
             }
+          }
+        },
+        "security": [
+          {
+            "Header API key parameter": []
+          },
+          {
+            "Basic HTTP authentication": []
+          },
+          {
+            "Query API key parameter": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Update an existing folder",
+        "description": "The method to update an existing folder. Folder be moved in structure by changing \"parent_folder_id\" field.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Folder ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Folder object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PutFolder"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Folder"
+            }
+          }
+        },
+        "security": [
+          {
+            "Header API key parameter": []
+          },
+          {
+            "Basic HTTP authentication": []
+          },
+          {
+            "Query API key parameter": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Delete folder",
+        "description": "The method deletes folder and its sub-folders.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Folder ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "If request body is not provided, default values are applied.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteFolder"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty response body"
           }
         },
         "security": [
@@ -1423,7 +1616,7 @@
         },
         "phone": {
           "type": "string",
-          "example": "+4412345678911"
+          "example": "4412345678911"
         },
         "timezone": {
           "type": "string",
@@ -1433,7 +1626,8 @@
         "verified": {
           "type": "boolean",
           "example": true,
-          "default": false
+          "default": false,
+          "description": "If true, \"password\" field is required and API key will be generated automatically (visible only to Admins)."
         },
         "active": {
           "type": "boolean",
@@ -1448,11 +1642,67 @@
         },
         "password": {
           "type": "String",
-            "example": "UserPassword123",
+          "example": "UserPassword123",
           "description": "Must be provided if verified=true. Must be at least 8 characters, 1 number and 1 capital letter"
+        }
+      }
+    },
+    "PutUser": {
+      "type": "object",
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "example": "User"
+        },
+        "last_name": {
+          "type": "string",
+          "example": "Name"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "admin",
+              "manager",
+              "billing",
+              "user"
+            ],
+            "type": "string",
+            "example": "manager",
+            "default": "user"
+          }
+        },
+        "phone": {
+          "type": "string",
+          "example": "+4412345678911"
+        },
+        "timezone": {
+          "type": "string",
+          "example": "Europe/London",
+          "default": "account_owner_timezone"
+        },
+        "verified": {
+          "type": "boolean",
+          "example": true,
+          "default": false,
+          "description": "Can only be changed from false to true"
+        },
+        "active": {
+          "type": "boolean",
+          "example": true
+        },
+        "group": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "67aab501-7d6d-4b31-9bec-398fd61ec0a3"
           }
         }
-      },
+      }
+    },
     "Users": {
       "type": "array",
       "items": {
@@ -1726,8 +1976,9 @@
             "disabled"
           ],
           "type": "string",
-          "default": "all_activity",
-          "example": "decisions"
+          "default": "hourly_digest",
+          "example": "decisions",
+          "description": "Default notification \"hourly_digest\" applies only to new users/guests. Other contacts retain their notification settings as default, unless defined otherwise."
         }
       }
     },
@@ -1968,8 +2219,9 @@
             "disabled"
           ],
           "type": "string",
-          "default": "all_activity",
-          "example": "disabled"
+          "default": "hourly_digest",
+          "example": "disabled",
+          "description": "Default notification \"hourly_digest\" applies only to new users/guests. Other contacts retain their notification settings as default, unless defined otherwise."
         }
       }
     },
@@ -2394,7 +2646,7 @@
             "disabled"
           ],
           "type": "string",
-          "default": "all_activity",
+          "default": "hourly_digest",
           "example": "final_decision"
         },
         "progress": {
@@ -2427,6 +2679,9 @@
           "type": "integer",
           "readOnly": true,
           "example": 2
+        },
+        "created_by":{
+          "$ref": "#/definitions/Contact"
         }
       }
     },
@@ -2910,6 +3165,54 @@
           "$ref": "#/definitions/Contact"
         }
       }
+    },
+    "PostFolder": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "folder name"
+        },
+        "parent_folder_id": {
+          "x-nullable": true,
+          "type": "string",
+          "example": "095c96c5-d582-4f64-8038-95b520e02a98"
+        },
+        "private": {
+          "type": "boolean",
+          "example": true,
+          "default": false
+        }
+      }
+    },
+    "DeleteFolder": {
+      "type": "object",
+      "properties": {
+        "delete_proofs": {
+          "type": "boolean",
+          "example": true,
+          "description": " * true - request will delete folder, its sub-folders and proofs inside. If user does not have permission to delete specific folder, it will be moved to the root folder. \n * false - request will delete only folder and its sub-folders.",
+          "default": false
+        }
+      }
+    },
+    "PutFolder": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "folder name"
+        },
+        "parent_folder_id": {
+          "x-nullable": true,
+          "type": "string",
+          "example": "095c96c5-d582-4f64-8038-95b520e02a98"
+        },
+        "private": {
+          "type": "boolean",
+          "example": true
+        }
+      }
     }
   },
   "tags": [
@@ -2919,7 +3222,7 @@
     },
     {
       "name": "folders",
-      "description": "Folders help organize proofs into a logical structure e.g. projects, time, etc. Folders may contain any number of sub-folders."
+      "description": "Folders help organize proofs into a logical structure e.g. projects, time, etc. Folders may contain any number of sub-folders. Available on Business and Enterprise editions only."
     },
     {
       "name": "comments",
@@ -2939,7 +3242,7 @@
     },
     {
       "name": "release notes",
-      "description": "## Release 18.6 \n \n ### Date: 4th July 2018 \n * POST user method added, allowing to add user to the account \n * GET/folders and GET/folders/id added \n * Create proof in folder/move proof to folder using \"folder_id\" field in POST and PUT proof request \n * GET Proof body object updated with new object Folder \n * New request POST reviewer directly to stage added \n * Final status calculation added to Proof's Stage object - can be modified on Enterprise and Business editions only. On starter edition it's read-only object. Impacted request's responses: GET/v1/proofs{id}, GET/v1/proofs and PUT/v1/proofs{id} \n * GET/users by email added \n * Webhooks subscription - new event \"first_opened\" added \n * Proof opened Webhook Event type added - \"opened_event\" object added to event structure, \"action\" field updated with \"opened\" value; event sent only when proof is opened for the first time \n * webhook event \"comment_event\" extended with fields \"text\" and \"like\" \n * Webhook event \"decision_event\" extended with \"decision\" field which contains decision type \n * Status event object added to webhook event structure containing proof's status  \n \n ## Release 18.5 \n \n ### Date: 7th June 2018 \n * Deadline setting changed - deadline can be set only in Deadline object present in Stage Trigger object, field deadline in Stage becomes read only and represents calculated deadline once Stage starts \n * Included workflow properties (Workflow template object, Lock stage, Stage Trigger in proof object model). Impact on all GET proof response's body, in POST proof body, options available to set only for Enterprise edition \n * GET /proofs returns proof list \n * GET all users \n * GET user by ID \n * DELETE user by ID \n * GET workflow template's list - Available for users with admin rights on Enterprise edition only \n * POST - create proof from workflow template \n * Extend POST and GET comment with markups "
+      "description": "## Release 18.7 \n \n ### Date: 13th July 2018 \n * Added POST, PUT and DELETE folders, allowing to create, update and delete folders in the account - available on Business and Enterprise editions only \n * PUT users method to update existing users \n * Member object returned in proof's stage expanded with new field \"created_by\" containing Contact object of reviewer who added him to the proof. Field is read-only \n * Default reviewer's notification changed to \"hourly_digest\" and will be applied only for new users or guests. Existing notification's settings remain the same \n \n ## Release 18.6 \n \n ### Date: 4th July 2018 \n * POST user method added, allowing to add user to the account \n * GET/folders and GET/folders/id added \n * Create proof in folder/move proof to folder using \"folder_id\" field in POST and PUT proof request \n * GET Proof body object updated with new object Folder \n * New request POST reviewer directly to stage added \n * Final status calculation added to Proof's Stage object - can be modified on Enterprise and Business editions only. On starter edition it's read-only object. Impacted request's responses: GET/v1/proofs{id}, GET/v1/proofs and PUT/v1/proofs{id} \n * GET/users by email added \n * Webhooks subscription - new event \"first_opened\" added \n * Proof opened Webhook Event type added - \"opened_event\" object added to event structure, \"action\" field updated with \"opened\" value; event sent only when proof is opened for the first time \n * webhook event \"comment_event\" extended with fields \"text\" and \"like\" \n * Webhook event \"decision_event\" extended with \"decision\" field which contains decision type \n * Status event object added to webhook event structure containing proof's status  \n \n ## Release 18.5 \n \n ### Date: 7th June 2018 \n * Deadline setting changed - deadline can be set only in Deadline object present in Stage Trigger object, field deadline in Stage becomes read only and represents calculated deadline once Stage starts \n * Included workflow properties (Workflow template object, Lock stage, Stage Trigger in proof object model). Impact on all GET proof response's body, in POST proof body, options available to set only for Enterprise edition \n * GET /proofs returns proof list \n * GET all users \n * GET user by ID \n * DELETE user by ID \n * GET workflow template's list - Available for users with admin rights on Enterprise edition only \n * POST - create proof from workflow template \n * Extend POST and GET comment with markups "
     }
   ]
 }
