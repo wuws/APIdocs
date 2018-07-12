@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "description": " ## Welcome To The Ziflow API \n The Ziflow API is built to allow you to easily and quickly embed Ziflow’s proofing features in your own application or create an integration between Ziflow and any other application. This API is the same one we use to power Ziflow! \n The API is a RESTful interface, essentially providing programmatic access to the features and data in the system. If you’ve interacted with a RESTful API before, many of the concepts will be familiar - it provides predictable URLs for accessing resources and uses built-in HTTP features. \n  The API accepts JSON or form-encoded content in requests, and returns JSON content in all of its responses, including errors. Only the UTF-8 character encoding is supported for both requests and responses.\n  ### Base domain \n API calls to Ziflow should be made to the https://api.ziflow.io/v1 . \n  ### Security & Authentication \n The Ziflow API is an SSL-only API. You must be a verified user to make API requests. Ziflow currently supports basic authentication using an API token. The API token can be found on your “Contact details” page. To access, click on your avatar in the top right and select \"View profile\". From there, click on \"API key.\"",
-    "version": "",
+    "version": "1",
     "title": "Ziflow API",
     "x-logo": {
       "url": "https://s3.amazonaws.com/ziflow-automation-testing/logo/ziflow_developers.png"
@@ -394,7 +394,7 @@
           {
             "name": "stage_id",
             "in": "path",
-            "description": "ID of stage in proof to which you want to add reviewer",
+            "description": "Id of stage in proof to which you want to add reviewer",
             "required": true,
             "type": "string"
           },
@@ -899,37 +899,6 @@
         "responses": {
           "200": {
             "description": "successful operation"
-          }
-        },
-        "security": [
-          {
-            "Header API key parameter": []
-          },
-          {
-            "Basic HTTP authentication": []
-          },
-          {
-            "Query API key parameter": []
-          }
-        ]
-      }
-    },
-    "/target/": {
-      "get": {
-        "tags": [
-          "webhooks"
-        ],
-        "summary": "Webhook Event structure",
-        "description": " Description of webhook event structure. \n \n Fake request to show webhook event structure.",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/WebhookEvent"
-            }
           }
         },
         "security": [
@@ -2962,7 +2931,7 @@
     },
     {
       "name": "webhooks",
-      "description": "Webhooks allow you to subscribe to changes and be notified of these changes as they occur. \n Webhooks are basically an easy way to receive notification of changes (Events) via an HTTP POST instead of polling for them. For services accessible via HTTP this is vastly more convenient and efficient. \n \n Ziflow currently sends one Event object per POST. We will later on extend this and send arrays of Event objects per POST which should be handled by the target. \n \n ### Webhooks Setup \n \n Webhook Subscriptions tell Ziflow what a particular app would like to get notified about. We currently support the following subscription types: \n Proof events: \n * Created \n * Processed (succeeded or failed) \n * Deleted \n * Updated \n * Status change \n * All comment events \n * Opened \n * All decisions events \n \n ### Managing Subscriptions via the UI \n \n  You can create and manage webhooks via the UI: \n 1. Log in to your Ziflow account and ensure you have Admin permissions \n 2. Click on your Avatar (top right) -> Manage account -> Webhooks \n \n Here you’ll be able to add, remove, update and activate/deactivate webhooks. \n \n      [ { \"events\": [ { \"event_id\": \"48219ea8-5b74-4c50-9dc2-11b01d218fbd\", \"webhook_id\": \"d8bb19a0-198c-4ec8-b569-c4166bf37ef2\", \"contact\": { \"id\": \"ec2b4aee-42b6-42f8-92cd-264d1c9d4d0c\", \"type\": \"string\", \"first_name\": \"User\", \"last_name\": \"Name\", \"email\": \"name@domain.com\", \"roles\": [ \"manager\" ], \"phone\": \"+4412345678911\", \"company\": \"ABC Inc\", \"tenant\": { \"tenant_id\": \"ab6d3631-b96b-49da-92c4-6b0af7fc1b48\", \"subdomain\": \"your-subdomain\", \"company_name\": \"Awesome Company\" }, \"verified\": true, \"blocked\": false, \"timezone\": \"Europe/London\" }, \"event_type\": \"proof\", \"proof_event\": { \"proof_id\": \"35b26dd9-4e8c-4fc5-a9ec-c68c8fb2e086\", \"version_previous_id\": \"79b26dd9-6e8c-4fc5-bg9e-c68c8fb4g254\", \"action\": \"comment\", \"comment_event\": { \"comment_id\": \"e92a3091-d5d0-4d89-89bf-3b93a468bf97\", \"parent_id\": null, \"action\": \"created\", \"text\": \"Comment text\", \"like\": false }, \"decision_event\": { \"reviewer_id\": \"af1f6f4f-8b71-4351-b9be-4007aad62266\", \"decision\": \"changes_required\" }, \"status_event\": { \"status\": \"approved\" }, \"opened_event\": { \"reviewer_id\": \"af1f6f4f-8b71-4351-b9be-4007aad62266\" }, \"created_at\": \"2018-06-13T04:50:35.521Z\", \"attempt_number\": 1, \"attempt_at\": \"2018-06-13T04:50:35.664Z\" } } ] } ]"
+      "description": "Webhooks allow you to subscribe to changes and be notified of these changes as they occur. \n Webhooks are basically an easy way to receive notification of changes (Events) via an HTTP POST instead of polling for them. For services accessible via HTTP this is vastly more convenient and efficient. \n \n Ziflow currently sends one Event object per POST. We will later on extend this and send arrays of Event objects per POST which should be handled by the target. \n \n ### Webhooks Setup \n \n Webhook Subscriptions tell Ziflow what a particular app would like to get notified about. We currently support the following subscription types: \n Proof events: \n * Created \n * Processed (succeeded or failed) \n * Deleted \n * Updated \n * Status change \n * All comment events \n * Opened \n * All decisions events \n \n ### Managing Subscriptions via the UI \n \n  You can create and manage webhooks via the UI: \n 1. Log in to your Ziflow account and ensure you have Admin permissions \n 2. Click on your Avatar (top right) -> Manage account -> Webhooks \n \n Here you’ll be able to add, remove, update and activate/deactivate webhooks. \n \n ### Webhook Payload \n \n The endpoint URL you specify in the Webhook subscription will receive requests like the following: \n \n    [ \n      { \n       \"events\":[ \n          { \n            \"event_id\": \"48219ea8-5b74-4c50-9dc2-11b01d218fbd\", \n            \"webhook_id\": \"d8bb19a0-198c-4ec8-b569-c4166bf37ef2\", \n            \"contact\": { \n               \"id\": \"ec2b4aee-42b6-42f8-92cd-264d1c9d4d0c\", \n               \"type\": \"user\", \n               \"first_name\": \"User\", \n               \"last_name\": \"Name\", \n               \"email\": \"name@domain.com\", \n               \"roles\": [ \n                 \"manager\" \n               ], \n               \"phone\": \"+4412345678911\", \n               \"company\": \"ABC Inc\", \n               \"tenant\": { \n                  \"tenant_id\": \"ab6d3631-b96b-49da-92c4-6b0af7fc1b48\", \n                  \"subdomain\": \"your-subdomain\", \n                  \"company_name\": \"Awesome Company\" \n               }, \n            \"verified\": true, \n            \"blocked\": false, \n            \"timezone\": \"Europe/London\" \n            }, \n            \"event_type\": \"proof\", \n            \"proof_event\": { \n               \"proof_id\": \"35b26dd9-4e8c-4fc5-a9ec-c68c8fb2e086\", \n               \"version_previous_id\": \"79b26dd9-6e8c-4fc5-bg9e-c68c8fb4g254\", \n               \"action\": \"comment\", \n               \"comment_event\": { \n                  \"comment_id\": \"e92a3091-d5d0-4d89-89bf-3b93a468bf97\", \n                  \"parent_id\": null, \n                  \"action\": \"created\", \n                  \"text\": \"Comment text\", \n                  \"like\": false \n               }, \n               \"decision_event\": { \n                  \"reviewer_id\": \"af1f6f4f-8b71-4351-b9be-4007aad62266\", \n                  \"decision\": \"changes_required\" \n               }, \n               \"status_event\": { \n                  \"status\": \"approved\" \n               }, \n               \"opened_event\": { \n                     \"reviewer_id\": \"af1f6f4f-8b71-4351-b9be-4007aad62266\" \n           }, \n            \"created_at\": \"2018-06-13T04:50:35.521Z\", \n            \"attempt_number\": 1, \n            \"attempt_at\": \"2018-06-13T04:50:35.664Z\" \n            } \n          } \n         ] \n        } \n       ]"
     },
     {
       "name": "workflow template",
@@ -2970,7 +2939,7 @@
     },
     {
       "name": "release notes",
-      "description": "## Release 18.6 \n \n ### Date: tbd \n * GET/folders and GET/folders/id added \n * Create proof in folder/move proof to folder using \"folder_id\" field in POST and PUT proof request \n * GET Proof body object updated with new object Folder \n * New request POST reviewer directly to stage added \n * Final status calculation added to Proof's Stage object - can be modified on Enterprise and Business editions only. On starter edition it's read-only object. Impacted request's responses: GET/v1/proofs{id}, GET/v1/proofs and PUT/v1/proofs{id} \n * GET/users by email added \n * Webhooks configuration - new evetn \"first_opened\" added \n * Proof opened Webhook Event type added - \"opened_event\" object added to event strucutre, \"action\" field updated with \"opened\" value; event sent only when proof is opened for the first time \n * webhook event \"comment_event\" extended with fields \"text\" and \"like\" \n * Webhook event \"decision_event\" extended with \"decision\" field which contains decision type \n * Status event object added to webhook event structure containing proof's status  \n \n ## Release 18.5 \n \n ### Date: 7.06.2018 \n * Deadline setting changed - deadline can be set only in Deadline object present in Stage Trigger object, field deadline in Stage becomes read only and represents calculated deadline once Stage starts \n * Included workflow properties (Workflow template object, Lock stage, Stage Trigger in proof object model). Impact on all GET proof response's body, in POST proof body, options available to set only for Enterprise edition \n * GET /proofs returns proof list \n * GET all users \n * GET user by ID \n * DELETE user by ID \n * GET workflow template's list - Available for users with admin rights on Enterprise edition only \n * POST - create proof from workflow template \n * Extend POST and GET comment with markups "
+      "description": "## Release 18.6 \n \n ### Date: 4th July 2018 \n * POST user method added, allowing to add user to the account \n * GET/folders and GET/folders/id added \n * Create proof in folder/move proof to folder using \"folder_id\" field in POST and PUT proof request \n * GET Proof body object updated with new object Folder \n * New request POST reviewer directly to stage added \n * Final status calculation added to Proof's Stage object - can be modified on Enterprise and Business editions only. On starter edition it's read-only object. Impacted request's responses: GET/v1/proofs{id}, GET/v1/proofs and PUT/v1/proofs{id} \n * GET/users by email added \n * Webhooks subscription - new event \"first_opened\" added \n * Proof opened Webhook Event type added - \"opened_event\" object added to event structure, \"action\" field updated with \"opened\" value; event sent only when proof is opened for the first time \n * webhook event \"comment_event\" extended with fields \"text\" and \"like\" \n * Webhook event \"decision_event\" extended with \"decision\" field which contains decision type \n * Status event object added to webhook event structure containing proof's status  \n \n ## Release 18.5 \n \n ### Date: 7th June 2018 \n * Deadline setting changed - deadline can be set only in Deadline object present in Stage Trigger object, field deadline in Stage becomes read only and represents calculated deadline once Stage starts \n * Included workflow properties (Workflow template object, Lock stage, Stage Trigger in proof object model). Impact on all GET proof response's body, in POST proof body, options available to set only for Enterprise edition \n * GET /proofs returns proof list \n * GET all users \n * GET user by ID \n * DELETE user by ID \n * GET workflow template's list - Available for users with admin rights on Enterprise edition only \n * POST - create proof from workflow template \n * Extend POST and GET comment with markups "
     }
   ]
 }
